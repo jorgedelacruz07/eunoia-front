@@ -30,8 +30,8 @@ body {
   }
 }
 .formulario.inicial {
-  width: 50%; /* Ancho del formulario */
-  height: 50%; /* Altura del formulario */
+  width: 400px; /* Ancho del formulario */
+  height: 300px; /* Altura del formulario */
   border: 1px solid black; /* Borde alrededor del formulario */
   padding: 20px; /* Espacio interno alrededor del formulario */
   border-radius: 10px; /* Esquinas redondeadas del formulario */
@@ -58,8 +58,8 @@ body {
 }
 
 .formulario.inicial .bttnInsertar{
-  margin-top: 0%; /* Coloca el botón al final del contenedor */
-  margin-left: 18%;
+  margin-top: -550px; /* Coloca el botón al final del contenedor */
+  margin-left: 20px;
   border-radius: 5%;
   border-color: black !important;
 }
