@@ -4,10 +4,21 @@ import React from "react";
 import {
   AppstoreOutlined,
   MailOutlined,
-  SettingOutlined,
-  UserOutlined,
+  SettingOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
+import {
+  IconUsersGroup,
+  IconSchool,
+  IconSquarePlus,
+  IconHeartHandshake,
+  IconUserPlus,
+  IconFirstAidKit,
+  IconFileTypeDoc,
+  IconReportAnalytics
+} from "@tabler/icons-react"
+
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -18,15 +29,15 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items = [
-  getItem("Usuarios", "1", <UserOutlined />),
-  getItem("Tipos de Tutoría", "2", <AppstoreOutlined />),
-  getItem("Asignación Individual Tipo de Tutoría", "3", <AppstoreOutlined />),
-  getItem("Asignación Masiva Tipo de Tutoría", "4", <AppstoreOutlined />),
-  getItem("Asignar Tutor", "5", <AppstoreOutlined />),
-  getItem("Registro de Usuarios", "6", <AppstoreOutlined />),
-  getItem("Unidades de Apoyo", "7", <AppstoreOutlined />),
-  getItem("Agregar Documentos", "8", <AppstoreOutlined />),
-  getItem("Reportes", "9", <AppstoreOutlined />),
+  getItem("Usuarios", "1", <IconUsersGroup size={20}/>),
+  getItem("Tipos de Tutoría", "2", <IconSchool size={20} />),
+  getItem("Asignación Individual Tipo de Tutoría", "3", <IconSquarePlus size={20} />),
+  getItem("Asignación Masiva Tipo de Tutoría", "4", <IconSquarePlus size={20} />),
+  getItem("Asignar Tutor", "5", <IconHeartHandshake size={20} />),
+  getItem("Registro de Usuarios", "6", <IconUserPlus size={20} />),
+  getItem("Unidades de Apoyo", "7", <IconFirstAidKit size={20} />),
+  getItem("Agregar Documentos", "8", <IconFileTypeDoc size={20} />),
+  getItem("Reportes", "9", <IconReportAnalytics size={20} />),
 ];
 
 import Image from "next/image";
@@ -38,7 +49,7 @@ const SiderList = () => {
   return (
     <div style={{ padding: "10px" }}>
       <Image
-        src="/logo.png"
+        src="/logo.svg"
         width={200}
         height={200}
         alt="Picture of the author"
