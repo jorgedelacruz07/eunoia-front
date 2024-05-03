@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Progress } from "antd";
-import { Button } from "antd";
-import { Card } from "antd";
-import { Tag } from "antd";
+import {
+  Progress, 
+  Button, 
+  Card,
+  Tag
+} from "antd";
 const { Meta } = Card;
 
 export default function CardProgreso({ progreso, link }) {

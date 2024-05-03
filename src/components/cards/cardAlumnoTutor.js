@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Avatar } from "antd";
-import { Button } from "antd";
-import { Card } from "antd";
+import { 
+  Avatar,
+  Button,
+  Card
+} from "antd";
 const { Meta } = Card;
 
 export default function CardAlumno({ alumno, programa, link }) {
