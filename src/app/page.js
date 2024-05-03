@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Button, Flex, Typography, Modal, Input } from "antd";
 import TableComponent from "@/components/TableComponent";
 import axios from "axios";
+import App from "./login/page";
 const { Title } = Typography;
 
 export default function Home() {
