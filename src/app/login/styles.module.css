@@ -1,0 +1,38 @@
+.container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #0884FC;
+    border-radius: 10px;
+}
+.forgotPassword{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0884FC;
+}
+.boton{
+    display: flex;
+    justify-content: center;
+    align-items: center;;
+}
+.bttn{
+    width: 200px;
+    display: flex !important;
+    justify-content: center !important; 
+    background-color: #0884FC;
+    color: #0884FC !important;
+}
+.labelIngreso{
+    color: #0884FC;
+    font-size: 25px;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-family: 'Nunito', sans-serif;
+    margin-top: 30px;
+}
