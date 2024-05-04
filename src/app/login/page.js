@@ -2,7 +2,7 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input,Row,Col } from 'antd';
 import styles from '@/app/login/styles.module.css';
-import logo from '../../../public/logo.png';
+import logo from '../../../public/logo.svg';
 import Image from 'next/image';
 
 

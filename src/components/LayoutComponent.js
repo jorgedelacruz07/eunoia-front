@@ -38,10 +38,10 @@ const layoutStyle = {
   maxWidth: "100%",
   minHeight: "100vh",
 };
-const LayoutComponent = ({ children }) => (
+const LayoutComponent = ({ siderItems, children }) => (
   <Layout style={layoutStyle}>
     <Sider width="20%" style={siderStyle}>
-      <SiderList />
+      <SiderList items={siderItems}/>
     </Sider>
     <Layout>
       <Header style={headerStyle}>Header</Header>
