@@ -5,6 +5,7 @@ import { Button, Flex, Typography, Input, Select } from "antd";
 import axios from "axios";
 import connection from '@/config/connection';
 import { coordinadorItems } from "@/utils/menuItems";
+import BuscarAlumnos from '@/components/BuscarAlumnos';
 import './App.css'; 
 
 const { Option } = Select;
@@ -15,6 +16,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [tutores, setTutores] = useState([]);
   const [tiposTutoria, setTiposTutoria] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   const get = async () => {
     setIsLoading(true);
@@ -107,13 +109,14 @@ export default function Home() {
           <Search
             placeholder="Busque al alumno"
             style={searchStyle} // Use searchStyle to control width and margin
-            onSearch={(value) => console.log('search:', value)}
+            onSearch={(value) => setSearchTerm(value)}
           />
           <div style={buttonContainerStyle}>
             <Button style={buttonStyle}>Guardar Cambios</Button>
             <Button style={cancelButtonStyle}>Cancelar</Button>
           </div>
         </Flex>
+        <BuscarAlumnos searchTerm={searchTerm} />
       </LayoutComponent>
     </main>
   );
