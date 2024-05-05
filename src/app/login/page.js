@@ -1,6 +1,6 @@
 "use client";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input,Row,Col } from 'antd';
+import { Button, Card, Form, Input,Row,Col } from 'antd';
 import styles from '../login/styles.module.css';
 import logo from '../../../public/logo.png';
 import Image from 'next/image';
@@ -13,24 +13,26 @@ const App = () => {
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
-    <div className={styles["container"]} >
+    <div className={styles['containerPrincipal']}>
+        <div className={styles['containerSecundario']}>
         <GoogleOAuthProvider clientId="895643509716-4vk4lq1smdd2plqtvpan6ldg83e867ti.apps.googleusercontent.com">  
             <Form
-            layout='vertical'
-            name="normal_login"
-            className="login-form"
-            initialValues={{
-                remember: true,
-            }}
             onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
             >
             <Row justify="center">
                 <Col>
                 <Image src={logo} alt="Logo" style={{ width: '200px', height: '80px' }} />
                 </Col>
             </Row>
-            <Form.Item name="ingreso" className={styles['ingreso']} >
+            <Form.Item name="ingreso" className={styles['ingreso']}>
                 <h1 className={styles.labelIngreso}>Ingrese a su cuenta</h1>
             </Form.Item>
             <Form.Item
@@ -66,14 +68,17 @@ const App = () => {
                 <a href="https://www.google.com.pe">¿Olvidó su contraseña?</a>
             </Form.Item>
 
-            <Form.Item name="ingreso" className={styles['boton']} >
-                <Button className={styles.bttn}>Iniciar sesión</Button>
+            <Form.Item  name="ingreso" >
+                <Button type="primary" htmlType="submit" className={styles['bttn']}>
+                        Ingrese a su cuenta
+                </Button>
             </Form.Item>
             <div className={styles['bttnLoginGoogle']}>
                 <Login />
             </div>  
             </Form>
         </GoogleOAuthProvider>
+        </div>
     </div>
   );
 };
