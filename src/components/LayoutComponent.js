@@ -38,7 +38,7 @@ const layoutStyle = {
   maxWidth: "100%",
   minHeight: "100vh",
 };
-const LayoutComponent = ({ siderItems, children }) => (
+const LayoutComponent = ({ siderItems, children, showFooter = true }) => (
   <Layout style={layoutStyle}>
     <Sider width="20%" style={siderStyle}>
       <SiderList items={siderItems}/>
@@ -46,7 +46,7 @@ const LayoutComponent = ({ siderItems, children }) => (
     <Layout>
       <Header style={headerStyle}>Header</Header>
       <Content style={contentStyle}>{children}</Content>
-      <Footer style={footerStyle}>Footer</Footer>
+      {showFooter && < Footer style={footerStyle}>Footer</Footer>}
     </Layout>
   </Layout>
 );
