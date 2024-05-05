@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Button, Flex, Typography, Modal, Input } from "antd";
 import TableComponent from "@/components/TableComponent";
 import axios from "axios";
-import App from "./login/page";
+//import App from "./login/page";
 import { coordinadorItems } from "@/utils/menuItems";
 const { Title } = Typography;
 
@@ -19,16 +19,17 @@ export default function Home() {
   const [telefono, setTelefono] = useState("");
   const [cicloEstudios, setCicloEstudios] = useState("");
   const [dni, setDni] = useState("");
-
+  const [busquedaInput, setBusquedaInput] = useState("");
   const [alumnos, setAlumnos] = useState([]);
-
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const get = async () => {
+  const onSearch = async () => {
+    console.log("asdsd");
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:8080/alumnoApi/listarTodosAlumnos"
+        `http://localhost:8080/usuarioApi/usuariosFiltrados/${busquedaInput}/${1}/${"alumno"}`
       );
 
       const data = response.data.map((alumno) => ({
@@ -48,7 +49,31 @@ export default function Home() {
       setIsLoading(false);
     }
   };
+  const get = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.SERVER}usuarioApi/usuariosFiltrados/${dni}/${1}/${"asdsad"}`
+      );
 
+      const data = response.data.map((alumno) => ({
+        key: alumno.dni,
+        dni: alumno.dni,
+        firstName: alumno.nombre,
+        lastName: alumno.apellidoPaterno,
+        lastName2: alumno.apellidoMaterno,
+        telefono: alumno.telefono,
+        cicloEstudios: alumno.cicloEstudios,
+        historialAcademico: alumno.historialAcademico,
+      }));
+
+      setAlumnos(data);
+    } catch (error) {
+      console.error("Error al obtener datos de la API:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
     get();
   }, []);
@@ -80,15 +105,12 @@ export default function Home() {
       );
       if (response.status === 200) {
         alert("Alumno insertado exitosamente");
-
-        clearInut();
+        clearInput();
         await get();
-        // Puedes hacer alguna acción adicional aquí, como limpiar el formulario
       } else {
         alert("Error al insertar alumno");
       }
     } catch (error) {
-      console.error("Error al insertar alumno:", error);
       console.error("Error al insertar alumno:", error);
       console.error(
         "Detalles de la respuesta del servidor:",
@@ -99,7 +121,7 @@ export default function Home() {
   const toggleMostrarInsertar = () => {
     setMostrarInsertar(!mostrarInsertar);
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  //const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -119,6 +141,15 @@ export default function Home() {
           <Button type="primary" onClick={showModal}>
             Ingresar{" "}
           </Button>
+          <Input
+            placeholder="Buscar"
+            value={busquedaInput}
+            onChange={(e) => {
+              setBusquedaInput(e.target.value);
+            }}
+            onPressEnter={onSearch}
+          ></Input>
+
         </Flex>
         <TableComponent
           isLoading={isLoading}
