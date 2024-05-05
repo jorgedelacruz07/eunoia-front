@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.0",
+    "@fontsource-variable/nunito": "^5.0.19",
     "@tabler/icons-react": "^3.3.0",
     "antd": "^5.16.4",
     "axios": "^1.6.8",

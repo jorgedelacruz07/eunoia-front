@@ -36,7 +36,7 @@ export const coordinadorItems = [
   getItem("Registro de Usuarios", "6", <IconUserPlus size={20} />, "/coordinador/regusuarios", true),
   getItem("Unidades de Apoyo", "7", <IconFirstAidKit size={20} />, "/coordinador/uapoyo", true),
   getItem("Agregar Documentos", "8", <IconFileTypeDoc size={20} />, "/coordinador/docs", true),
-  getItem("Reportes", "9", <IconReportAnalytics size={20} />, "/coordinador/reportes", true),
+  getItem("Reportes", "9", <IconReportAnalytics size={20} />, "/coordinador/reportes", false),
 ];
 
 export const alumnoItems = [

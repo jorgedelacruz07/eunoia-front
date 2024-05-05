@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { Button, Flex, Typography, Modal, Input } from "antd";
 import TableComponent from "@/components/TableComponent";
 import axios from "axios";
-import App from "./login/page";
 import { coordinadorItems } from "@/utils/menuItems";
 const { Title } = Typography;
 
