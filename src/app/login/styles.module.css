@@ -1,14 +1,16 @@
-.container{
-    position: fixed;
-    top: 50%;
+.containerPrincipal{
+    display: flex;
+    position: absolute;
     left: 50%;
-    width: 30%;
+    top: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
     border: 1px solid #0884FC;
     border-radius: 10px;
-    
+    padding: 40px 40px 10px 40px;
+    background-color: white;
+}
+.containerSecundario{
+    text-align: center;
 }
 .forgotPassword{
     display: flex;
@@ -23,10 +25,9 @@
 }
 .bttn{
     width: 200px;
-    display: flex !important;
-    justify-content: center !important; 
+    margin: 0 auto !important;
     background-color: #0884FC;
-    color: #0884FC !important;
+    color: white !important;
 }
 .labelIngreso{
     color: #0884FC;
@@ -34,7 +35,7 @@
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Nunito', sans-serif !important;
     margin-top: 30px;
 }
 .bttnLoginGoogle{
