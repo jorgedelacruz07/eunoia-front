@@ -12,29 +12,43 @@ const TableComponent = ({ isLoading, alumnos }) => {
     <Table dataSource={alumnos}>
       <Column
         title="Nº"
+        dataIndex="index"
         key="index"
+        align="center"
         render={(text, record, index) => index + 1}
       />
-      <ColumnGroup>
-        <Column title="Nombres" dataIndex="firstName" key="firstName" />
-        <Column title="apellido Paterno" dataIndex="lastName" key="lastName" />
-        <Column
-          title="apellido Materno"
-          dataIndex="lastName2"
-          key="lastName2"
-        />
-      </ColumnGroup>
-      <Column title="dni" dataIndex="dni" key="dni" />
-      <Column title="telefono" dataIndex="telefono" key="telefono" />
       <Column
-        title="cicloEstudios"
+        title="Nombres"
+        key="nombres"
+        align="center"
+        render={(text, record) =>
+          `${record.firstName} ${record.lastName} ${record.lastName2}`
+        }
+      />
+
+      <Column
+        title="Correo"
         dataIndex="cicloEstudios"
         key="cicloEstudios"
+        align="center"
       />
       <Column
-        title="historialAcademico"
+        title="Tipo de Usuario"
         dataIndex="historialAcademico"
         key="historialAcademico"
+        align="center"
+      />
+      <Column
+        title="Estado"
+        dataIndex="telefono"
+        key="telefono"
+        align="center"
+      />
+      <Column
+        title="Accion"
+        dataIndex="telefono"
+        key="telefono"
+        align="center"
       />
     </Table>
   );
