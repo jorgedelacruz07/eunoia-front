@@ -8,6 +8,7 @@
     padding: 20px;
     border: 1px solid #0884FC;
     border-radius: 10px;
+    
 }
 .forgotPassword{
     display: flex;
@@ -35,4 +36,10 @@
     align-items: center !important;
     font-family: 'Nunito', sans-serif;
     margin-top: 30px;
+}
+.bttnLoginGoogle{
+    width: 370px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 }
