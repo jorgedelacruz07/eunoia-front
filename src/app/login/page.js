@@ -5,6 +5,7 @@ import styles from '../login/styles.module.css';
 import logo from '../../../public/logo.png';
 import Image from 'next/image';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import validaToken from '../../components/validarToken';
 
 
 import React from 'react';
@@ -13,11 +14,37 @@ import Login from '@/components/bttnGoogle';
 const App = () => {
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    const { username, password } = values;
+    // Aquí puedes enviar los valores del formulario al backend para verificar el inicio de sesión
+    try {
+        // Llamar a la función handleSuccess con el usuario y la contraseña
+        debugger
+        handleSuccess(username, password);
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        // Manejar caso de error al iniciar sesión
+        message.error('Error al iniciar sesión');
+    }
+  };
+
+  async function handleSuccess(username, password){
+    // Aquí puedes realizar acciones adicionales si el inicio de sesión es exitoso
+    // Por ejemplo, redireccionar a otra página o mostrar un mensaje de éxito
+    // Redireccionar a otra página, por ejemplo, a la página de inicio
+    const validado = await validaToken(username);
+            if (validado.id != -1) {
+                const url = `${validado.path}?id=${validado.id}`;
+                window.location.href = url;
+            }
+            else{
+                alert("El usuario no existe");
+            }
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  
 
   return (
     <div className={styles['containerPrincipal']}>
