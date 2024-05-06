@@ -20,7 +20,8 @@ const Login = () => {
             console.log(payload);
             const validado = await validaToken(payload.email);
             if (validado) {
-                window.location.href = validado;
+                const url = `${validado.path}?id=${validado.id}`;
+                window.location.href = url;
             }
         }
     }
