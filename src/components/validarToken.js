@@ -14,38 +14,39 @@ export default async function validaToken(email) {
         }
         );
 
+        debugger
         // Verificar el resultado de la validación
-        if (response.data === 'Tutor') {
+        if (response.data.resultado === 'Tutor') {
             console.log('Usuario Tutor');
             // Aquí puedes realizar acciones adicionales si el token es válido
             alert("usuario Tutor");
-            return '/tutor'; // Devuelve true si el token es válido
+            return {path:'/tutor',id:response.data.id}; // Devuelve true si el token es válido
         } else {
-            if(response.data == 'Alumno'){
+            if(response.data.resultado == 'Alumno'){
                 console.error('Usuario Alumno');
                 // Aquí puedes manejar el caso en el que el token no es válido
                 alert("usuario Alumno");
-                return '/alumno'; // Devuelve false si el token no es válido
+                return {path:'/alumno',id:response.data.id}; // Devuelve false si el token no es válido
             }
             else{
-                if(response.data == 'Coordinador'){
+                if(response.data.resultado == 'Coordinador'){
                     console.error('Usuario Coordinador');
                     // Aquí puedes manejar el caso en el que el token no es válido
                     alert("usuario Coordinador");
-                    return '/coordinador'; // Devuelve false si el token no es válido
+                    return {path:'/coordinador',id:response.data.id}; // Devuelve false si el token no es válido
                 }
                 else{
-                    if(response.data == 'Administrador'){
+                    if(response.data.resultado == 'Administrador'){
                         console.error('Usuario Administrador');
                         // Aquí puedes manejar el caso en el que el token no es válido
                         alert("usuario Administrador");
-                        return '/admin'; // Devuelve false si el token no es válido
+                        return {path:'/admin',id:response.data.id}; // Devuelve false si el token no es válido
                     }
                     else{
                         console.error('Usuario no encontrado');
                         // Aquí puedes manejar el caso en el que el token no es válido
                         alert("usuario no valido");
-                        return '/error'; // Devuelve false si el token no es válido
+                        return {path:'/error',id:response.data.id}; // Devuelve false si el token no es válido
                     }
                 }
             }
