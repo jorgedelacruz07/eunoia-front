@@ -27,7 +27,7 @@ const Login = () => {
 
     return <div>
          <div>
-            <GoogleLogin onError={handleError} onSuccess={handleSuccess} width={200} />
+            <GoogleLogin onError={handleError} onSuccess={handleSuccess} width={250} />
         </div>
     </div>
 
