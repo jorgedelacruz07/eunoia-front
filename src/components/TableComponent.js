@@ -28,26 +28,26 @@ const TableComponent = ({ isLoading, alumnos }) => {
 
       <Column
         title="Correo"
-        dataIndex="cicloEstudios"
-        key="cicloEstudios"
+        dataIndex="correo"
+        key="correo"
         align="center"
       />
       <Column
         title="Tipo de Usuario"
-        dataIndex="historialAcademico"
-        key="historialAcademico"
+        dataIndex="tipoUsuario"
+        key="tipoUsuario"
         align="center"
       />
       <Column
         title="Estado"
-        dataIndex="telefono"
-        key="telefono"
+        dataIndex="estado"
+        key="estado"
         align="center"
       />
       <Column
         title="Accion"
-        dataIndex="telefono"
-        key="telefono"
+        dataIndex="accion"
+        key="accion"
         align="center"
       />
     </Table>

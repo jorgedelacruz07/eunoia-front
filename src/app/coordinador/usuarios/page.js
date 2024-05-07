@@ -53,17 +53,17 @@ export default function Home() {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.SERVER}usuarioApi/usuariosFiltrados/${dni}/${1}/${"asdsad"}`
+        `http://localhost:8080/usuarioApi/usuariosFiltrados/${"%20"}/${1}/${"%20"}`
       );
 
       const data = response.data.map((alumno) => ({
         key: alumno.dni,
         dni: alumno.dni,
-        firstName: alumno.nombre,
-        lastName: alumno.apellidoPaterno,
-        lastName2: alumno.apellidoMaterno,
-        telefono: alumno.telefono,
-        cicloEstudios: alumno.cicloEstudios,
+        firstName: alumno.persona.nombre,
+        lastName: alumno.persona.apellidoPaterno,
+        lastName2: alumno.persona.apellidoMaterno,
+        correo: alumno.correo,
+        tipoUsuario: alumno.tipoUsuario,
         historialAcademico: alumno.historialAcademico,
       }));
 
@@ -74,10 +74,12 @@ export default function Home() {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     get();
   }, []);
-  const clearInut = () => {
+
+  const clearInput = () => {
     setNombre("");
     setApellidoPaterno("");
     setApellidoMaterno("");
@@ -85,6 +87,7 @@ export default function Home() {
     setCicloEstudios("");
     setDni("");
   };
+  
   const handleInsertarClick = async () => {
     try {
       const response = await axios.post(
@@ -118,9 +121,9 @@ export default function Home() {
       );
     }
   };
-  const toggleMostrarInsertar = () => {
-    setMostrarInsertar(!mostrarInsertar);
-  };
+  //const toggleMostrarInsertar = () => {
+  //  setMostrarInsertar(!mostrarInsertar);
+  //};
   //const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
