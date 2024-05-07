@@ -1,23 +1,33 @@
-"use client";
+import React, { useState } from "react";
+import { 
+  Avatar,
+  Button,
+  Card
+} from "antd";
+const { Meta } = Card;
 
-import React from "react"
-import { cardAlumnoCoordi } from './cardAlumnoCoordi.css'
- 
-export function AlumnoCard({ persona,codigo,foto=null}){
-    const { nombre, apellidoPaterno, apellidoMaterno } = persona;
-    return(
-        <article className="card">
-            <header className="card-header" >
-              
-                <div className="info">
-                    <h3 className="nombre">{nombre} {apellidoPaterno} {apellidoMaterno}</h3>
-                    <p className="codigo">Código: {codigo}</p> 
-                </div>
-                <aside className="aside">
-                    <button className="boton">Ver disponibilidad</button>
-                </aside>
-            </header>
-
-        </article>
-    )
+export default function CardAlumnoCoordi({ alumno }) {
+  const placeholderImage = "/public/user.png"; 
+  return (
+    <Card style={{ width: 400, height: 130 }} type="inner">
+      <Meta
+        avatar={
+          <Avatar size={32} src={alumno.foto || placeholderImage} />
+        }
+        title={
+          <>
+            {alumno.persona.nombre} {alumno.persona.apellidoPaterno} {alumno.persona.apellidoMaterno}
+            <Button type="primary" style={{ float: "right" }} href={`/${alumno.id}/profile`}>
+              Seleccionar
+            </Button>
+          </>
+        }
+        description={
+          <>
+            {alumno.correo}
+          </>
+        }
+      />
+    </Card>
+  );
 }

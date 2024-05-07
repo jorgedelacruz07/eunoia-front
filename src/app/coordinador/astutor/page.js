@@ -23,7 +23,6 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-     // const fetchTutores = axios.get(`${connection.backend}/tutorApi/listarTodosTutores`);
       const fetchTiposTutoria = axios.get(`${connection.backend}/tipoTutoriaApi/listarTodosTiposTutoria`);
 
       fetchTiposTutoria.then(response => {
@@ -41,13 +40,6 @@ export default function Home() {
     get();
   }, []);
 
-  const componentStyle = {
-    width: '60%', // Maintain width to 60% as before
-    marginBottom: '16px',
-    marginLeft: '0', // Ensure there is no left margin
-    display: 'block' // Ensure the dropdowns are block elements to align properly
-  };
-  
   const dropdownStyle = {
     flex: '1 1 auto',
     marginLeft: '10px',  // Add margin to indent the dropdown
@@ -88,24 +80,15 @@ export default function Home() {
     alignItems: 'center',
     width: '60%',
     marginBottom: '16px',
+    justifyContent: 'flex-start'
   };
 
 
   const handleTipoTutoriaChange = (value) => {
-    // Convert the value to the correct type, e.g., a number if idTipoTutoria is a number
     const numericValue = Number(value);
     const selectedTipo = tiposTutoria.find(tipo => tipo.idTipoTutoria === numericValue);
-
-    // Reset selected tutor when changing tipo de tutoría
-    setSelectedTutor(null); // Ensure you have a state to track the selected tutor
+    setSelectedTutor(null); 
     setSelectedTipoTutoria(selectedTipo || null);
-};
-
-const handleTutorChange = (value) => {
-    // Convert the value to the correct type, e.g., a number if id is a number
-    const numericValue = Number(value);
-    const selectedTutor = selectedTipoTutoria.tutores.find(tutor => tutor.id === numericValue);
-    setSelectedTutor(selectedTutor || null);
 };
 
 return (
@@ -118,7 +101,7 @@ return (
             showSearch
             placeholder="Seleccione el tipo de tutoría"
             style={dropdownStyle}
-            className="leftAlignPlaceholder"
+           // className="leftAlignPlaceholder"
             onChange={handleTipoTutoriaChange}
             onSearch={(value) => console.log('search:', value)}
             value={selectedTipoTutoria ? selectedTipoTutoria.idTipoTutoria.toString() : undefined}
@@ -134,22 +117,21 @@ return (
             showSearch
             placeholder="Seleccione al tutor"
             style={dropdownStyle}
-            className="leftAlignPlaceholder"
+           // className="leftAlignPlaceholder"
             onChange={(value) => {
-              // Assuming that this value is the ID of the tutor, find and set the selected tutor
               const tutor = selectedTipoTutoria.tutores.find(t => t.id === Number(value));
               setSelectedTutor(tutor);
             }}
             onSearch={(value) => console.log('search:', value)}
             disabled={!selectedTipoTutoria}
-            value={selectedTutor ? selectedTutor.id.toString() : undefined} // This will be undefined if selectedTutor is null
+            value={selectedTutor ? selectedTutor.id.toString() : undefined}
           >
             {selectedTipoTutoria ? selectedTipoTutoria.tutores.map(tutor => (
               <Option key={tutor.id} value={tutor.id.toString()}>{tutor.nombre} {tutor.apellidoPaterno}</Option>
             )) : <Option disabled>No disponible</Option>}
           </Select>
         </div>
-        <Flex style={{ width: '100%', alignItems: 'center' }}>
+        <Flex style={{ width: '100%', alignItems: 'center', marginBottom: '16px',}}>
           <Search
             placeholder="Busque al alumno por código o nombre"
             style={searchStyle}
