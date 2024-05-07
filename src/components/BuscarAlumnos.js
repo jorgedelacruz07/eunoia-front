@@ -1,6 +1,7 @@
 import React, { useState , useEffect } from "react";
-import { AlumnoCard } from "./cards/cardAlumnoCoordi";  // Import the CardAlumno component
+import CardAlumnoCoordi from "./cards/cardAlumnoCoordi"; 
 import axios from "axios";
+import { Row, Col } from "antd";
 import connection from '@/config/connection';
 
 // Import statements remain the same
@@ -27,17 +28,13 @@ function BuscarAlumnos({ searchTerm }) {
   }, [searchTerm]);  // Fetch when searchTerm changes
 
   return (
-    <div>
+    <Row gutter={[16, 16]}> {/* Row grid with space between columns and rows */}
       {alumnos.map((alumno) => (
-        <AlumnoCard
-          persona={alumno.persona}
-          codigo={alumno.codigo}
-          
-          programa={`nombre: ${alumno.persona.nombre}`}
-          link={`/${alumno.id}/profile`}
-        />
+        <Col xs={24} sm={12} md={8} lg={6} key={alumno.id}> {/* Each card gets a column */}
+        <CardAlumnoCoordi alumno={alumno} key={alumno.id} />
+        </Col>
       ))}
-    </div>
+    </Row>
   );
 }
 
