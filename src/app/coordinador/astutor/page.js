@@ -14,7 +14,7 @@ const { Title } = Typography;
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
-  const [tutores, setTutores] = useState([]);
+  const [selectedTipoTutoria, setSelectedTipoTutoria] = useState(null);
   const [tiposTutoria, setTiposTutoria] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); 
 
@@ -22,14 +22,13 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const fetchTutores = axios.get(`${connection.backend}/tutorApi/listarTodosTutores`);
+     // const fetchTutores = axios.get(`${connection.backend}/tutorApi/listarTodosTutores`);
       const fetchTiposTutoria = axios.get(`${connection.backend}/tipoTutoriaApi/listarTodosTiposTutoria`);
 
-      Promise.all([fetchTutores, fetchTiposTutoria]).then(values => {
-        setTutores(values[0].data);
-        setTiposTutoria(values[1].data);
+      fetchTiposTutoria.then(response => {
+        setTiposTutoria(response.data);
       }).catch(error => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching tiposTutoria:', error);
       });
     } finally {
       setIsLoading(false);
@@ -77,38 +76,47 @@ export default function Home() {
     flexGrow: 1 // Use available space effectively
   };
 
-  return (
+  const handleTipoTutoriaChange = (value) => {
+    // Ensure the value is converted to the correct type, e.g., a number if idTipoTutoria is a number
+    const numericValue = Number(value);
+    const selectedTipo = tiposTutoria.find(tipo => tipo.idTipoTutoria === numericValue);
+    setSelectedTipoTutoria(selectedTipo || null);
+};
+
+return (
     <main style={{ height: "100vh" }}>
       <LayoutComponent siderItems={coordinadorItems} showFooter={false}>
         <Title level={4} className="text-xl font-semibold" style={{ fontFamily: 'Nunito, sans-serif', color: '#043b71', textAlign: 'left', padding: '0 20px' }}>Asignar Tutor</Title>
         <Select
           showSearch
-          placeholder="Seleccione al tutor"
-          style={componentStyle}
-          className="leftAlignPlaceholder"
-          onChange={(value) => console.log(`selected ${value}`)}
-          onSearch={(value) => console.log('search:', value)}
-        >
-          {tutores.map(tutor => (
-            <Option key={tutor.id} value={tutor.id}>{tutor.nombre} {tutor.apellidoPaterno}</Option>
-          ))}
-        </Select>
-        <Select
-          showSearch
           placeholder="Seleccione el tipo de tutoría"
           style={componentStyle}
           className="leftAlignPlaceholder"
-          onChange={(value) => console.log(`selected ${value}`)}
+          onChange={handleTipoTutoriaChange}
           onSearch={(value) => console.log('search:', value)}
         >
           {tiposTutoria.map(tipo => (
-            <Option key={tipo.id} value={tipo.id}>{tipo.descripcion}</Option>
+            <Option key={tipo.idTipoTutoria} value={tipo.idTipoTutoria.toString()}>{tipo.descripcion}</Option>
           ))}
         </Select>
+        {selectedTipoTutoria && selectedTipoTutoria.tutores.length > 0 && (
+          <Select
+            showSearch
+            placeholder="Seleccione al tutor"
+            style={componentStyle}
+            className="leftAlignPlaceholder"
+            onChange={(value) => console.log(`selected ${value}`)}
+            onSearch={(value) => console.log('search:', value)}
+          >
+            {selectedTipoTutoria.tutores.map(tutor => (
+              <Option key={tutor.id} value={tutor.id.toString()}>{tutor.nombre} {tutor.apellidoPaterno}</Option>
+            ))}
+          </Select>
+        )}
         <Flex style={{ width: '100%', alignItems: 'center' }}>
           <Search
             placeholder="Busque al alumno"
-            style={searchStyle} // Use searchStyle to control width and margin
+            style={searchStyle}
             onSearch={(value) => setSearchTerm(value)}
           />
           <div style={buttonContainerStyle}>
