@@ -1,5 +1,5 @@
 import React, { useState , useEffect } from "react";
-import CardAlumno from "./cards/cardAlumnoTutor";  // Import the CardAlumno component
+import { AlumnoCard } from "./cards/cardAlumnoCoordi";  // Import the CardAlumno component
 import axios from "axios";
 import connection from '@/config/connection';
 
@@ -29,10 +29,11 @@ function BuscarAlumnos({ searchTerm }) {
   return (
     <div>
       {alumnos.map((alumno) => (
-        <CardAlumno
-          key={alumno.id}
-          alumno={alumno}
-          programa={`nombre: ${alumno.nombre}`}
+        <AlumnoCard
+          persona={alumno.persona}
+          codigo={alumno.codigo}
+          
+          programa={`nombre: ${alumno.persona.nombre}`}
           link={`/${alumno.id}/profile`}
         />
       ))}
