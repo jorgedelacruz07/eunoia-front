@@ -1,32 +1,34 @@
 import React, { useState } from "react";
-import { 
+import {
   Avatar,
   Button,
-  Card
+  Card,
+  Tooltip
 } from "antd";
+import { MinusCircleOutlined } from "@ant-design/icons";
 const { Meta } = Card;
 
-export default function CardAlumnoCoordi({ alumno }) {
-  const placeholderImage = "/public/user.png"; 
+export default function CardAlumnoCoordi({ alumno, onRemove }) {
+  const placeholderImage = "/user.png";
+
   return (
-    <Card style={{ width: 400, height: 130 }} type="inner">
+    <Card style={{ width: 300, margin: '10px' }} type="inner">
       <Meta
-        avatar={
-          <Avatar size={32} src={alumno.foto || placeholderImage} />
-        }
+        avatar={<Avatar size={48} src={alumno.foto || placeholderImage} />}
         title={
           <>
             {alumno.persona.nombre} {alumno.persona.apellidoPaterno} {alumno.persona.apellidoMaterno}
-            <Button type="primary" style={{ float: "right" }} href={`/${alumno.id}/profile`}>
-              Seleccionar
-            </Button>
+            <Tooltip title="Remove">
+              <Button
+                shape="circle"
+                icon={<MinusCircleOutlined style={{ color: 'red' }} />}
+                onClick={() => onRemove(alumno.id)}
+                style={{ borderColor: 'red', float: 'right' }}
+              />
+            </Tooltip>
           </>
         }
-        description={
-          <>
-            {alumno.correo}
-          </>
-        }
+        description={alumno.correo}
       />
     </Card>
   );

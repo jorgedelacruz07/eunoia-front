@@ -1,15 +1,14 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import LayoutComponent from "@/components/LayoutComponent";
-import { Button, Flex, Typography, Input, Select } from "antd";
+import { Button, Flex, Typography, Input, Select, message } from "antd";
 import axios from "axios";
 import connection from '@/config/connection';
 import { coordinadorItems } from "@/utils/menuItems";
-import BuscarAlumnos from '@/components/BuscarAlumnos';
+import CardAlumnoCoordi from "@/components/cards/cardAlumnoCoordi"; 
 import './App.css'; 
 
 const { Option } = Select;
-const { Search } = Input;
 const { Title, Text } = Typography;
 
 export default function Home() {
@@ -17,13 +16,14 @@ export default function Home() {
   const [selectedTipoTutoria, setSelectedTipoTutoria] = useState(null);
   const [tiposTutoria, setTiposTutoria] = useState([]);
   const [selectedTutor, setSelectedTutor] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [selectedAlumnos, setSelectedAlumnos] = useState([]);
+  const [alumnoDropdownValue, setAlumnoDropdownValue] = useState(undefined);
 
   const get = async () => {
     setIsLoading(true);
 
     try {
-      const fetchTiposTutoria = axios.get(`${connection.backend}/tipoTutoriaApi/listarTodosTiposTutoria`);
+      const fetchTiposTutoria = axios.get(`${connection.backend}/tipoTutoriaApi/listarTiposTutoriaTutorAsignado`);
 
       fetchTiposTutoria.then(response => {
         console.log("Response data:", response.data);
@@ -40,84 +40,96 @@ export default function Home() {
     get();
   }, []);
 
-  const dropdownStyle = {
-    flex: '1 1 auto',
-    marginLeft: '10px',  // Add margin to indent the dropdown
-  };
-
-  const searchStyle = {
-    width: '60%',
-    marginRight: '16px', // Provide some space between the search bar and the buttons
-    marginLeft: '0', // Ensure there is no left margin
-    display: 'block'
-  };
-
-  const buttonStyle = {
-    backgroundColor: '#0884fc',
-    color: '#fff',
-    border: 'none',
-    padding: '6px 20px', // Padding adjusted for internal spacing
-    minWidth: '120px', // Minimum width
-    marginRight: '8px', // Space between the "Guardar Cambios" and "Cancelar" buttons
-  };
-
-  const cancelButtonStyle = {
-    backgroundColor: '#d9d9d9',
-    color: '#fff',
-    border: 'none',
-    padding: '6px 20px', // Padding adjusted for internal spacing
-    minWidth: '120px', // Ensuring text fits comfortably
-  };
-
-  const buttonContainerStyle = {
-    display: 'flex',
-    justifyContent: 'flex-end', // Align buttons to the right
-    flexGrow: 1 // Use available space effectively
-  };
-
-  const dropdownContainerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    width: '60%',
-    marginBottom: '16px',
-    justifyContent: 'flex-start'
-  };
-
-
   const handleTipoTutoriaChange = (value) => {
     const numericValue = Number(value);
     const selectedTipo = tiposTutoria.find(tipo => tipo.idTipoTutoria === numericValue);
     setSelectedTutor(null); 
+    setSelectedAlumnos([]);
+    setAlumnoDropdownValue(undefined);
     setSelectedTipoTutoria(selectedTipo || null);
+};
+
+const handleSelectAlumno = (value) => {
+  setAlumnoDropdownValue(value);
+  const alumno = selectedTipoTutoria.alumnos.find(a => a.id.toString() === value);
+  if (alumno && !selectedAlumnos.find(a => a.id === alumno.id)) {
+      setSelectedAlumnos([...selectedAlumnos, alumno]);
+  }
+};
+
+const handleRemoveAlumno = id => {
+  if (alumnoDropdownValue === id.toString()) {
+    setAlumnoDropdownValue(undefined); // Reset dropdown to allow re-selection
+  }
+  setSelectedAlumnos(selectedAlumnos.filter(alumno => alumno.id !== id));
+};
+
+const handleCancel = () => {
+  setSelectedTipoTutoria(null);
+  setSelectedTutor(null);
+  setSelectedAlumnos([]);
+  setAlumnoDropdownValue(undefined);
+};
+
+const handleGuardarCambios = async () => {
+  if (!selectedTipoTutoria || !selectedTutor || selectedAlumnos.length === 0) {
+    message.error("Debe seleccionar un tipo de tutoría, un tutor y al menos un alumno.");
+    return;
+  }
+
+  const dataPayload = {
+    idTipoTutoria: selectedTipoTutoria.idTipoTutoria,
+    idTutor: selectedTutor.persona.id,
+    idAlumnos: selectedAlumnos.map(alumno => alumno.persona.id),
+  };
+
+  try {
+    // Replace the URL with the actual endpoint that will handle this data
+    await axios.post(`${connection.backend}/llenarAsignacion`, dataPayload);
+    message.success("Cambios guardados exitosamente.");
+    setSelectedTipoTutoria(null);
+    setSelectedTutor(null);
+    setSelectedAlumnos([]);
+    setAlumnoDropdownValue(undefined);
+  } catch (error) {
+    console.error('Error saving data:', error);
+    message.error("Hubo un error al guardar los cambios.");
+  }
 };
 
 return (
     <main style={{ height: "100vh" }}>
       <LayoutComponent siderItems={coordinadorItems} showFooter={false}>
         <Title level={4} className="text-xl font-semibold" style={{ fontFamily: 'Nunito, sans-serif', color: '#043b71', textAlign: 'left', padding: '0 20px' }}>Asignar Tutor</Title>
-        <div style={dropdownContainerStyle}>
+        <div className="dropdownContainerStyle">
           <Text strong>Tipo de Tutoría:</Text>
           <Select
             showSearch
             placeholder="Seleccione el tipo de tutoría"
-            style={dropdownStyle}
-           // className="leftAlignPlaceholder"
+            className = "dropdownStyle"
             onChange={handleTipoTutoriaChange}
             onSearch={(value) => console.log('search:', value)}
             value={selectedTipoTutoria ? selectedTipoTutoria.idTipoTutoria.toString() : undefined}
+            filterOption={(input, option) =>
+              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            }
           >
             {tiposTutoria.map(tipo => (
-              <Option key={tipo.idTipoTutoria} value={tipo.idTipoTutoria.toString()}>{tipo.descripcion}</Option>
+              <Option key={tipo.idTipoTutoria} 
+              value={tipo.idTipoTutoria.toString()}
+              label={tipo.descripcion}
+              >
+                {tipo.descripcion}
+              </Option>
             ))}
           </Select>
         </div>
-        <div style={dropdownContainerStyle}>
+        <div className="dropdownContainerStyle">
           <Text strong>Tutor:</Text>
           <Select
             showSearch
             placeholder="Seleccione al tutor"
-            style={dropdownStyle}
-           // className="leftAlignPlaceholder"
+            className="dropdownStyle"
             onChange={(value) => {
               const tutor = selectedTipoTutoria.tutores.find(t => t.id === Number(value));
               setSelectedTutor(tutor);
@@ -125,24 +137,53 @@ return (
             onSearch={(value) => console.log('search:', value)}
             disabled={!selectedTipoTutoria}
             value={selectedTutor ? selectedTutor.id.toString() : undefined}
+            filterOption={(input, option) =>
+              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            }
           >
             {selectedTipoTutoria ? selectedTipoTutoria.tutores.map(tutor => (
-              <Option key={tutor.id} value={tutor.id.toString()}>{tutor.nombre} {tutor.apellidoPaterno}</Option>
+              <Option key={tutor.id} 
+              value={tutor.id.toString()}
+              label={`${tutor.persona.nombre} ${tutor.persona.apellidoPaterno}`}
+              >
+                {tutor.persona.nombre} {tutor.persona.apellidoPaterno}</Option>
             )) : <Option disabled>No disponible</Option>}
           </Select>
         </div>
         <Flex style={{ width: '100%', alignItems: 'center', marginBottom: '16px',}}>
-          <Search
+        <div className="dropdownContainerStyle">
+          <Select
+            showSearch
             placeholder="Busque al alumno por código o nombre"
-            style={searchStyle}
-            onSearch={(value) => setSearchTerm(value)}
-          />
-          <div style={buttonContainerStyle}>
-            <Button style={buttonStyle}>Guardar Cambios</Button>
-            <Button style={cancelButtonStyle}>Cancelar</Button>
-          </div>
+            className = "dropdownStyle"
+            onChange={handleSelectAlumno}
+            onSearch={(value) => console.log('search:', value)}
+            value={alumnoDropdownValue}
+            disabled={!selectedTipoTutoria}
+            filterOption={(input, option) => {
+              (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+          }}
+          >
+            {selectedTipoTutoria ? selectedTipoTutoria.alumnos.map(alumno => (
+              <Option 
+                key={alumno.id} 
+                value={alumno.id.toString()}
+                label={`${alumno.codigo} ${alumno.persona.nombre} ${alumno.persona.apellidoPaterno}`}
+              >
+              {alumno.codigo} - {alumno.persona.nombre} {alumno.persona.apellidoPaterno}</Option>
+            )) : <Option disabled>No disponible</Option>}
+          </Select>
+        </div>
+        <div className="buttonContainerStyle">
+          <Button className="buttonStyle" onClick={handleGuardarCambios}>Guardar Cambios</Button>
+          <Button className="cancelButtonStyle"  onClick={handleCancel} >Cancelar</Button>
+        </div>
         </Flex>
-        <BuscarAlumnos searchTerm={searchTerm} />
+        <div>
+          {selectedAlumnos.map(alumno => (
+              <CardAlumnoCoordi key={alumno.id} alumno={alumno} onRemove={handleRemoveAlumno}/>
+          ))}
+        </div>
       </LayoutComponent>
     </main>
   );
