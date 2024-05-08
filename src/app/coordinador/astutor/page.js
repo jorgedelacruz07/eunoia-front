@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import LayoutComponent from "@/components/LayoutComponent";
-import { Button, Flex, Typography, Input, Select } from "antd";
+import { Button, Flex, Typography, Input, Select, message } from "antd";
 import axios from "axios";
 import connection from '@/config/connection';
 import { coordinadorItems } from "@/utils/menuItems";
@@ -62,6 +62,39 @@ const handleRemoveAlumno = id => {
     setAlumnoDropdownValue(undefined); // Reset dropdown to allow re-selection
   }
   setSelectedAlumnos(selectedAlumnos.filter(alumno => alumno.id !== id));
+};
+
+const handleCancel = () => {
+  setSelectedTipoTutoria(null);
+  setSelectedTutor(null);
+  setSelectedAlumnos([]);
+  setAlumnoDropdownValue(undefined);
+};
+
+const handleGuardarCambios = async () => {
+  if (!selectedTipoTutoria || !selectedTutor || selectedAlumnos.length === 0) {
+    message.error("Debe seleccionar un tipo de tutoría, un tutor y al menos un alumno.");
+    return;
+  }
+
+  const dataPayload = {
+    idTipoTutoria: selectedTipoTutoria.idTipoTutoria,
+    idTutor: selectedTutor.persona.id,
+    idAlumnos: selectedAlumnos.map(alumno => alumno.persona.id),
+  };
+
+  try {
+    // Replace the URL with the actual endpoint that will handle this data
+    await axios.post(`${connection.backend}/llenarAsignacion`, dataPayload);
+    message.success("Cambios guardados exitosamente.");
+    setSelectedTipoTutoria(null);
+    setSelectedTutor(null);
+    setSelectedAlumnos([]);
+    setAlumnoDropdownValue(undefined);
+  } catch (error) {
+    console.error('Error saving data:', error);
+    message.error("Hubo un error al guardar los cambios.");
+  }
 };
 
 return (
@@ -142,8 +175,8 @@ return (
           </Select>
         </div>
         <div className="buttonContainerStyle">
-          <Button className="buttonStyle">Guardar Cambios</Button>
-          <Button className="cancelButtonStyle">Cancelar</Button>
+          <Button className="buttonStyle" onClick={handleGuardarCambios}>Guardar Cambios</Button>
+          <Button className="cancelButtonStyle"  onClick={handleCancel} >Cancelar</Button>
         </div>
         </Flex>
         <div>
