@@ -4,3 +4,45 @@
 .ant-select-selector, .ant-select-selection-item, .ant-select-item-option-content {
     text-align: left !important;
 }
+.dropdownStyle {
+    flex: 1 1 auto;
+    margin-left: 10px;
+}
+
+.buttonContainerStyle .ant-btn.buttonStyle{
+    background-color: #0884fc;
+    color: #fff;
+    border: none;
+    padding: 6px 20px;
+    min-width: 120px;
+    margin-right: 8px;
+}
+
+.buttonContainerStyle .ant-btn.cancelButtonStyle{
+    background-color: #d9d9d9;
+    color: #fff;
+    border: none;
+    padding: 6px 20px;
+    min-width: 120px;
+}
+
+.buttonContainerStyle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.dropdownContainerStyle {
+    display: flex;
+    width: 60%;
+    margin-bottom: 16px;
+    justify-content: flex-start;
+}
+
+.assignTutorTitle {
+    font-family: 'Nunito, sans-serif';
+    color: #043b71;
+    text-align: left;
+    padding: 0 20px;
+}
