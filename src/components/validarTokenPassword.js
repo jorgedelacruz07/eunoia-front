@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-// Función para validar el token en el backend
-export default async function validaToken(email) {
+export default async function validaTokenPassword(email,password) {
     try {
         // Enviar el token al backend
-        const response = await axios.post("http://localhost:8080/usuarioApi/validarUsuario", {
+        debugger
+        const response = await axios.post("http://localhost:8080/usuarioApi/validarUsuarioPassword", {
             correo: email,
+            password: password
         },
         {
             headers: {
@@ -58,4 +59,3 @@ export default async function validaToken(email) {
         return false; // Devuelve false en caso de error
     }
 }
-
