@@ -1,21 +1,17 @@
 "use client";
 import { IconKey, IconUser } from "@tabler/icons-react";
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
   Button,
-  Card,
   Form,
   Input,
   Row,
   Col,
-  ConfigProvider,
-  Layout,
+  ConfigProvider
 } from "antd";
 import styles from '../login/styles.module.css';
 import logo from '../../../public/logo.png';
 import Image from 'next/image';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import validaToken from '../../components/validarToken';
 import validaTokenPassword from "@/components/validarTokenPassword";
 
 import React from "react";
@@ -71,7 +67,7 @@ const App = () => {
                   <Image
                     src={logo}
                     alt="Logo"
-                    style={{ width: "200px", height: "80px" }}
+                    style={{ width: "200px", height: "60px" }}
                   />
                 </Col>
               </Row>
