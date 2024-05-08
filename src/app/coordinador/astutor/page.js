@@ -102,7 +102,7 @@ return (
       <LayoutComponent siderItems={coordinadorItems} showFooter={false}>
         <Title level={4} className="text-xl font-semibold" style={{ fontFamily: 'Nunito, sans-serif', color: '#043b71', textAlign: 'left', padding: '0 20px' }}>Asignar Tutor</Title>
         <div className="dropdownContainerStyle">
-          <Text strong>Tipo de Tutoría:</Text>
+          <Text strong className="titleText">Tipo de Tutoría:</Text>
           <Select
             showSearch
             placeholder="Seleccione el tipo de tutoría"
@@ -125,7 +125,7 @@ return (
           </Select>
         </div>
         <div className="dropdownContainerStyle">
-          <Text strong>Tutor:</Text>
+          <Text strong className="titleText">Tutor:</Text>
           <Select
             showSearch
             placeholder="Seleccione al tutor"
@@ -150,35 +150,35 @@ return (
             )) : <Option disabled>No disponible</Option>}
           </Select>
         </div>
-        <Flex style={{ width: '100%', alignItems: 'center', marginBottom: '16px',}}>
-        <div className="dropdownContainerStyle">
-          <Select
-            showSearch
-            placeholder="Busque al alumno por código o nombre"
-            className = "dropdownStyle"
-            onChange={handleSelectAlumno}
-            onSearch={(value) => console.log('search:', value)}
-            value={alumnoDropdownValue}
-            disabled={!selectedTipoTutoria}
-            filterOption={(input, option) => {
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
-          }}
-          >
-            {selectedTipoTutoria ? selectedTipoTutoria.alumnos.map(alumno => (
-              <Option 
-                key={alumno.id} 
-                value={alumno.id.toString()}
-                label={`${alumno.codigo} ${alumno.persona.nombre} ${alumno.persona.apellidoPaterno}`}
-              >
-              {alumno.codigo} - {alumno.persona.nombre} {alumno.persona.apellidoPaterno}</Option>
-            )) : <Option disabled>No disponible</Option>}
-          </Select>
+        <div className="flexContainer"> 
+          <div className="dropdownContainerStyle">
+            <Select
+              showSearch
+              placeholder="Busque al alumno por código o nombre"
+              className = "dropdownStyle"
+              onChange={handleSelectAlumno}
+              onSearch={(value) => console.log('search:', value)}
+              value={alumnoDropdownValue}
+              disabled={!selectedTipoTutoria}
+              filterOption={(input, option) => {
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+            }}
+            >
+              {selectedTipoTutoria ? selectedTipoTutoria.alumnos.map(alumno => (
+                <Option 
+                  key={alumno.id} 
+                  value={alumno.id.toString()}
+                  label={`${alumno.codigo} ${alumno.persona.nombre} ${alumno.persona.apellidoPaterno}`}
+                >
+                {alumno.codigo} - {alumno.persona.nombre} {alumno.persona.apellidoPaterno}</Option>
+              )) : <Option disabled>No disponible</Option>}
+            </Select>
+          </div>
+          <div className="buttonContainerStyle">
+            <Button className="buttonStyle" onClick={handleGuardarCambios}>Guardar Cambios</Button>
+            <Button className="cancelButtonStyle"  onClick={handleCancel} >Cancelar</Button>
+          </div>
         </div>
-        <div className="buttonContainerStyle">
-          <Button className="buttonStyle" onClick={handleGuardarCambios}>Guardar Cambios</Button>
-          <Button className="cancelButtonStyle"  onClick={handleCancel} >Cancelar</Button>
-        </div>
-        </Flex>
         <div>
           {selectedAlumnos.map(alumno => (
               <CardAlumnoCoordi key={alumno.id} alumno={alumno} onRemove={handleRemoveAlumno}/>
