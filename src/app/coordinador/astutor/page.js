@@ -42,7 +42,7 @@ export default function Home() {
 
   const handleTipoTutoriaChange = (value) => {
     const numericValue = Number(value);
-    const selectedTipo = tiposTutoria.find(tipo => tipo.idTipoTutoria === numericValue);
+    const selectedTipo = tiposTutoria.find(tipo => tipo.tipoTutoria.idTipoTutoria === numericValue);
     setSelectedTutor(null); 
     setSelectedAlumnos([]);
     setAlumnoDropdownValue(undefined);
@@ -78,7 +78,7 @@ const handleGuardarCambios = async () => {
   }
 
   const dataPayload = {
-    idTipoTutoria: selectedTipoTutoria.idTipoTutoria,
+    idTipoTutoria: selectedTipoTutoria.tipoTutoria.idTipoTutoria,
     idTutor: selectedTutor.persona.id,
     idAlumnos: selectedAlumnos.map(alumno => alumno.persona.id),
   };
@@ -109,17 +109,17 @@ return (
             className = "dropdownStyle"
             onChange={handleTipoTutoriaChange}
             onSearch={(value) => console.log('search:', value)}
-            value={selectedTipoTutoria ? selectedTipoTutoria.idTipoTutoria.toString() : undefined}
+            value={selectedTipoTutoria ? selectedTipoTutoria.tipoTutoria.idTipoTutoria.toString() : undefined}
             filterOption={(input, option) =>
               (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
             }
           >
             {tiposTutoria.map(tipo => (
-              <Option key={tipo.idTipoTutoria} 
-              value={tipo.idTipoTutoria.toString()}
-              label={tipo.descripcion}
+              <Option key={tipo.tipoTutoria.idTipoTutoria} 
+              value={tipo.tipoTutoria.idTipoTutoria.toString()}
+              label={tipo.tipoTutoria.descripcion}
               >
-                {tipo.descripcion}
+                {tipo.tipoTutoria.descripcion}
               </Option>
             ))}
           </Select>
