@@ -49,7 +49,7 @@ export default function Home() {
       return response.data;
      
     } catch(error){
-      console.error("Error al obtener datos de la API: Tipors tutoria", error);
+      console.error("Error al obtener datos de la API: Tipos tutoria", error);
     } finally{
       setIsLoading(false);
     }
@@ -76,7 +76,7 @@ export default function Home() {
     const nuevosTutores = await Promise.all(
       tutoresParametro.map(async (elemento) => {
         
-        const tiposTutoriaA = await handlerListarTemasPorTutor(1, elemento.persona.id);
+        const tiposTutoriaA = await handlerListarTemasPorTutor(6, elemento.persona.id);
         const tutor = {
           id: elemento.persona.id,
           tiposDeTutoria: tiposTutoriaA,
@@ -98,7 +98,7 @@ export default function Home() {
 
   useEffect(() => {
       
-    const idUsuario = 1; // Debes proporcionar el id del alumno aquí   
+    const idUsuario = 6; // Debes proporcionar el id del alumno aquí   
     handlerListarTutoriasPorAlumno(idUsuario);
     
   }, [])
@@ -106,7 +106,7 @@ export default function Home() {
  
   useEffect(() => {
       debugger
-      const idAlumno = 1;
+      const idAlumno = 7;
       
       if ( texto === null || texto === ''){
         handlerListarTutores(idAlumno, '%20' ,tutoriaSelccionado );
@@ -124,7 +124,7 @@ export default function Home() {
     
 
   useEffect(() => {
-      const idAlumno = 1;
+      const idAlumno = 6;
       const textoInicial = '%20'
       handlerListarTutores(idAlumno,textoInicial,-1 );
        // Suponiendo que necesitas realizar una acción similar a esta
