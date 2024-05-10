@@ -6,10 +6,10 @@ import LayoutComponent from "@/components/LayoutComponent";
 import TableComponent from "@/components/TableComponentTipoTutoria";
 import { useEffect, useState, useRef } from "react";
 import { Button, Flex, Typography, Modal, Input, Form, Radio, Select, Space ,message} from "antd";
-import axios from "axios";
 import connection from '@/config/connection';
 import { coordinadorItems } from "@/utils/menuItems";
 import { SearchOutlined, PicLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { http } from '@/services/http';
 const { Title } = Typography;
 
 
@@ -38,8 +38,8 @@ export default function Home() {
   const get = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        `${connection.backend}/tipoTutoriaApi/listarTodosTiposTutoria`
+      const response = await http.get(
+        `/tipoTutoriaApi/listarTodosTiposTutoria`
       );
       
       const data = response.data.map((tipoTutoria) => ({
@@ -59,14 +59,14 @@ export default function Home() {
   const handleSearch = async (nombre,estado) => {
     setIsLoading(true);
     try {
-      let url = `${connection.backend}/tipoTutoriaApi/listarTiposTutoriEstadoNombre?estado=${estado}`;
+      let url = `/tipoTutoriaApi/listarTiposTutoriEstadoNombre?estado=${estado}`;
       if(nombre!=''){
         url+=`&nombre=${nombre}`;
       }
       
       console.log("url:" +url);
-      //let url = "http://localhost:8080/tipoTutoriaApi/listarTiposTutoriEstadoNombre/";
-      const response = await axios.get(
+      //let url = "/tipoTutoriaApi/listarTiposTutoriEstadoNombre/";
+      const response = await http.get(
         url
       );
 
@@ -122,7 +122,7 @@ export default function Home() {
 
   const handleInsertarClick = async () => {
     try {
-      const response = await axios.post(`${connection.backend}/tipoTutoriaApi/crearTiposTutoria`, {
+      const response = await http.post(`/tipoTutoriaApi/crearTiposTutoria`, {
         nombre,
         estado,
         descripcion,
@@ -166,13 +166,11 @@ export default function Home() {
     }
   };
   const handleNoSeleccionado = (estado) => {
-    debugger;
     setEstado(estado)
   }
 
   const handleGuardar = (estado) => {
     // Lógica para guardar el estado seleccionado
-    debugger;
     setEstadoBuscado(estado)
     console.log('Estado guardado:', estadoBuscado);
     console.log('Estado boton:', estado);

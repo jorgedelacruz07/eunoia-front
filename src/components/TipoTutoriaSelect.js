@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Select } from "antd";
-import axios from "axios";
+import { http } from "@/services/http";
 
 const TipoTutoriaSelect = ({ value, onChange }) => {
   const [tiposTutoria, setTiposTutoria] = useState([]);
@@ -8,8 +8,8 @@ const TipoTutoriaSelect = ({ value, onChange }) => {
   useEffect(() => {
     const fetchTiposTutoria = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/tipoTutoriaApi/listarTodosTiposTutoria"
+        const response = await http.get(
+          "/tipoTutoriaApi/listarTodosTiposTutoria"
         );
         setTiposTutoria(response.data);
       } catch (error) {

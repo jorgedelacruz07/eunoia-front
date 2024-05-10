@@ -3,7 +3,6 @@
 import LayoutComponent from "@/components/LayoutComponent";
 import { useEffect, useState } from "react";
 import { Button, Flex, Typography, Modal, Input } from "antd";
-import axios from "axios";
 import { tutorItems } from "@/utils/menuItems";
 
 const { Title } = Typography;

@@ -1,10 +1,9 @@
-import axios from 'axios';
+import { http } from "@/services/http";
 
 export default async function validaTokenPassword(email,password) {
     try {
         // Enviar el token al backend
-        debugger
-        const response = await axios.post("http://localhost:8080/usuarioApi/validarUsuarioPassword", {
+        const response = await http.post("/usuarioApi/validarUsuarioPassword", {
             correo: email,
             password: password
         },
@@ -15,7 +14,6 @@ export default async function validaTokenPassword(email,password) {
         }
         );
 
-        debugger
         // Verificar el resultado de la validación
         if (response.data.resultado === 'Tutor') {
             console.log('Usuario Tutor');

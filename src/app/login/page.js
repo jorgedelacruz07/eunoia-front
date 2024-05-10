@@ -20,12 +20,10 @@ import { defaultThemeConfig } from "@/utils/themeConfigs";
 
 const App = () => {
   const onFinish = (values) => {
-    debugger
     console.log('Received values of form: ', values);
     const { username, password } = values;
     try {
         // Llamar a la función handleSuccess con el usuario y la contraseña
-        debugger
         handleSuccess(username, password);
     } catch (error) {
         console.error('Error al iniciar sesión:', error);

@@ -4,12 +4,12 @@ import LayoutComponent from "@/components/LayoutComponent";
 
 import { useEffect, useState } from "react";
 import { Button, Flex, Typography, Modal, Input ,Select} from "antd";
-import axios from "axios";
 import { alumnoItems } from "@/utils/menuItems";
 import {Calendar } from "./Calendario"
 const { Title } = Typography;
 import  "./horario.css"
 import { MinusCircleFilled } from '@ant-design/icons';
+import { http } from "@/services/http";
 
 export default function Home() {
   const [disponibilidad, setDisponibilidad] = useState([]);
@@ -35,8 +35,8 @@ export default function Home() {
   const handleListarDisponibilidad = async(idTutor)=>{
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:8080/disponibilidadApi/listarDisponibilidadPorTutor/${idTutor}`
+      const response = await http.get(
+        `/disponibilidadApi/listarDisponibilidadPorTutor/${idTutor}`
       );
       console.log(response.data);
       setDisponibilidad(response.data);
@@ -49,8 +49,8 @@ export default function Home() {
 
   const handlerElementosPorDisponibilidad = async (idDisponibilidad) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/bloqueDisponibilidadApi/listarBloqueDisponibilidadPorDisponibilidad/${idDisponibilidad}`
+      const response = await http.get(
+        `/bloqueDisponibilidadApi/listarBloqueDisponibilidadPorDisponibilidad/${idDisponibilidad}`
       );
       console.log(response.data);
       setBloqueDisponibilidad(response.data);

@@ -1,10 +1,10 @@
-import axios from 'axios';
+import { http } from '@/services/http';
 
 // Función para validar el token en el backend
 export default async function validaToken(email) {
     try {
         // Enviar el token al backend
-        const response = await axios.post("http://localhost:8080/usuarioApi/validarUsuario", {
+        const response = await http.post("/usuarioApi/validarUsuario", {
             correo: email,
         },
         {
@@ -14,7 +14,6 @@ export default async function validaToken(email) {
         }
         );
 
-        debugger
         // Verificar el resultado de la validación
         if (response.data.resultado === 'Tutor') {
             console.log('Usuario Tutor');

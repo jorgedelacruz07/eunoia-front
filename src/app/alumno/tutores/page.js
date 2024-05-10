@@ -3,7 +3,6 @@
 import LayoutComponent from "@/components/LayoutComponent";
 import { useEffect, useState } from "react";
 import { Button, Flex, Typography, Modal, Input ,Select,Text } from "antd";
-import axios from "axios";
 import { alumnoItems } from "@/utils/menuItems";
 import { TutorCard } from "./cardTutor";
 const { Title } = Typography;
@@ -11,6 +10,7 @@ import {  cardTutor } from './cardTutor.css'
 import { Divider } from "antd";
 import "./app.css";
 import { userAgent } from "next/server";
+import { http } from "@/services/http";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,8 +27,8 @@ export default function Home() {
   const handlerListarTutores = async (id,nombre,idTipo) => {
     setIsLoading(true);
     try{
-      const response = await axios.get(
-        `http://localhost:8080/tutorApi/listarTutorPorAlumno/${id}/${nombre}/${idTipo}`
+      const response = await http.get(
+        `/tutorApi/listarTutorPorAlumno/${id}/${nombre}/${idTipo}`
       );
       setTutores(response.data);
       
@@ -42,8 +42,8 @@ export default function Home() {
   const handlerListarTemasPorTutor = async (idUsuario,idTutor) => {
     setIsLoading(true);
     try{
-      const response = await axios.get(
-        `http://localhost:8080/tipoTutoriaApi/listarTiposTutoriaCompatiblesXTutor/${idUsuario}/${idTutor}`
+      const response = await http.get(
+        `/tipoTutoriaApi/listarTiposTutoriaCompatiblesXTutor/${idUsuario}/${idTutor}`
       );
       setTiposTutoria(response.data);
       return response.data;
@@ -58,8 +58,8 @@ export default function Home() {
   const handlerListarTutoriasPorAlumno = async (idUsuario) => {
     setIsLoading(true);
     try{
-      const response = await axios.get(
-        `http://localhost:8080/tipoTutoriaApi/listarTiposTutoriaXAlumno/${idUsuario}`
+      const response = await http.get(
+        `/tipoTutoriaApi/listarTiposTutoriaXAlumno/${idUsuario}`
       );
       setTiposTutoriaAlumno(response.data);
       return response.data;
@@ -105,7 +105,6 @@ export default function Home() {
 
  
   useEffect(() => {
-      debugger
       const idAlumno = 7;
       
       if ( texto === null || texto === ''){

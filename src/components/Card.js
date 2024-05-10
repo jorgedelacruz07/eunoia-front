@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { http } from "@/services/http";
 
 const Card = () => {
   const [alumnos, setAlumnos] = useState([]);
@@ -10,8 +10,8 @@ const Card = () => {
   const handleListarClick = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        "http://localhost:8080/alumnoApi/listarTodosAlumnos"
+      const response = await http.get(
+        "/alumnoApi/listarTodosAlumnos"
       );
       setAlumnos(response.data);
     } catch (error) {
