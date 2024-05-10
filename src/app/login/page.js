@@ -112,7 +112,7 @@ const App = () => {
                 name="olvidoContrasenha"
                 className={styles["forgotPassword"]}
               >
-                <a href="https://www.google.com.pe">¿Olvidó su contraseña?</a>
+                <a href="https://eros.pucp.edu.pe/pucp/usuarios/uswolvid/uswolvid?accion=IngresarOlvidoContrasena&identificacion=&msg=">¿Olvidó su contraseña?</a>
               </Form.Item>
               <Form.Item name="ingreso">
                 <Button
