@@ -30,7 +30,7 @@ export default function Home() {
     setIsLoading(true);
     try{
       const response = await axios.get(
-        `${connection.backend}/tutorApi/listarTutorPorAlumno/${id}/${nombre}/${idTipo}`
+        `${process.env.backend}/tutorApi/listarTutorPorAlumno/${id}/${nombre}/${idTipo}`
       );
       setTutores(response.data);
       
@@ -45,7 +45,7 @@ export default function Home() {
     setIsLoading(true);
     try{
       const response = await axios.get(
-        `${connection.backend}/tipoTutoriaApi/listarTiposTutoriaCompatiblesXTutor/${idUsuario}/${idTutor}`
+        `${process.env.backend}/tipoTutoriaApi/listarTiposTutoriaCompatiblesXTutor/${idUsuario}/${idTutor}`
       );
       setTiposTutoria(response.data);
       return response.data;
@@ -61,7 +61,7 @@ export default function Home() {
     setIsLoading(true);
     try{
       const response = await axios.get(
-        `${connection.backend}/tipoTutoriaApi/listarTiposTutoriaXAlumno/${idUsuario}`
+        `${process.env.backend}/tipoTutoriaApi/listarTiposTutoriaXAlumno/${idUsuario}`
       );
       setTiposTutoriaAlumno(response.data);
       return response.data;

@@ -55,7 +55,7 @@ const App = () => {
     <ConfigProvider theme={defaultThemeConfig}>
       <div className={styles["containerPrincipal"]}>
         <div className={styles["containerSecundario"]}>
-          <GoogleOAuthProvider clientId="895643509716-4vk4lq1smdd2plqtvpan6ldg83e867ti.apps.googleusercontent.com">
+          <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
             <Form
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
@@ -112,7 +112,7 @@ const App = () => {
                 name="olvidoContrasenha"
                 className={styles["forgotPassword"]}
               >
-                <a href="https://www.google.com.pe">¿Olvidó su contraseña?</a>
+                <a href="https://eros.pucp.edu.pe/pucp/usuarios/uswolvid/uswolvid?accion=IngresarOlvidoContrasena&identificacion=&msg=">¿Olvidó su contraseña?</a>
               </Form.Item>
               <Form.Item name="ingreso">
                 <Button

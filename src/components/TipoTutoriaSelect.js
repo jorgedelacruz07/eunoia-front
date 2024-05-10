@@ -9,7 +9,7 @@ const TipoTutoriaSelect = ({ value, onChange }) => {
     const fetchTiposTutoria = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/tipoTutoriaApi/listarTodosTiposTutoria"
+          `${process.env.backend}/tipoTutoriaApi/listarTodosTiposTutoria`
         );
         setTiposTutoria(response.data);
       } catch (error) {

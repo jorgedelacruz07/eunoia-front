@@ -23,7 +23,7 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const fetchTiposTutoria = axios.get(`${connection.backend}/tipoTutoriaApi/listarTiposTutoriaTutorAsignado`);
+      const fetchTiposTutoria = axios.get(`${process.env.backend}/tipoTutoriaApi/listarTiposTutoriaTutorAsignado`);
 
       fetchTiposTutoria.then(response => {
         console.log("Response data:", response.data);
@@ -85,7 +85,7 @@ const handleGuardarCambios = async () => {
 
   try {
     // Replace the URL with the actual endpoint that will handle this data
-    await axios.post(`${connection.backend}/llenarAsignacion`, dataPayload);
+    await axios.post(`${process.env.backend}/llenarAsignacion`, dataPayload);
     message.success("Cambios guardados exitosamente.");
     setSelectedTipoTutoria(null);
     setSelectedTutor(null);

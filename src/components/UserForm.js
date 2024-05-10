@@ -24,7 +24,7 @@ const UserForm = ({
     const fetchEspecialidades = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/especialidadApi/listarTodosEspecialidad"
+          `${process.env.backend}/especialidadApi/listarTodosEspecialidad`
         );
         setEspecialidades(response.data);
       } catch (error) {
@@ -64,7 +64,7 @@ const UserForm = ({
         };
 
         const alumnoResponse = await axios.post(
-          "http://localhost:8080/alumnoApi/crearAlumno",
+          `${process.env.backend}/alumnoApi/crearAlumno`,
           alumnoData,
           {
             headers: {
@@ -101,7 +101,7 @@ const UserForm = ({
           };
 
           const usuarioResponse = await axios.post(
-            "http://localhost:8080/usuarioApi/crearUsuario",
+            `${process.env.backend}/usuarioApi/crearUsuario`,
             usuarioData,
             {
               headers: {
@@ -136,7 +136,7 @@ const UserForm = ({
         };
 
         const tutorResponse = await axios.post(
-          "http://localhost:8080/tutorApi/crearTutor",
+          `${process.env.backend}/tutorApi/crearTutor`,
           tutorData,
           {
             headers: {
@@ -151,7 +151,7 @@ const UserForm = ({
           // Asignar tipo de tutoría al tutor
           if (tipoTutoria) {
             await axios.post(
-              `http://localhost:8080/tipoTutoriaApi/asignarTipoTutoriaATutor/${tipoTutoria}/${tutorId}`
+              `${process.env.backend}/tipoTutoriaApi/asignarTipoTutoriaATutor/${tipoTutoria}/${tutorId}`
             );
           }
 
@@ -180,7 +180,7 @@ const UserForm = ({
           };
 
           const usuarioResponse = await axios.post(
-            "http://localhost:8080/usuarioApi/crearUsuario",
+            `${process.env.backend}/usuarioApi/crearUsuario`,
             usuarioData,
             {
               headers: {
