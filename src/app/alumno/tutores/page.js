@@ -11,6 +11,8 @@ import {  cardTutor } from './cardTutor.css'
 import { Divider } from "antd";
 import "./app.css";
 import { userAgent } from "next/server";
+import { Option } from "antd/es/mentions";
+import connection from '@/config/connection';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +30,7 @@ export default function Home() {
     setIsLoading(true);
     try{
       const response = await axios.get(
-        `http://localhost:8080/tutorApi/listarTutorPorAlumno/${id}/${nombre}/${idTipo}`
+        `${connection.backend}/tutorApi/listarTutorPorAlumno/${id}/${nombre}/${idTipo}`
       );
       setTutores(response.data);
       
@@ -43,7 +45,7 @@ export default function Home() {
     setIsLoading(true);
     try{
       const response = await axios.get(
-        `http://localhost:8080/tipoTutoriaApi/listarTiposTutoriaCompatiblesXTutor/${idUsuario}/${idTutor}`
+        `${connection.backend}/tipoTutoriaApi/listarTiposTutoriaCompatiblesXTutor/${idUsuario}/${idTutor}`
       );
       setTiposTutoria(response.data);
       return response.data;
@@ -59,7 +61,7 @@ export default function Home() {
     setIsLoading(true);
     try{
       const response = await axios.get(
-        `http://localhost:8080/tipoTutoriaApi/listarTiposTutoriaXAlumno/${idUsuario}`
+        `${connection.backend}/tipoTutoriaApi/listarTiposTutoriaXAlumno/${idUsuario}`
       );
       setTiposTutoriaAlumno(response.data);
       return response.data;
@@ -106,7 +108,7 @@ export default function Home() {
  
   useEffect(() => {
       debugger
-      const idAlumno = 7;
+      const idAlumno = 6;
       
       if ( texto === null || texto === ''){
         handlerListarTutores(idAlumno, '%20' ,tutoriaSelccionado );
@@ -125,7 +127,7 @@ export default function Home() {
 
   useEffect(() => {
       const idAlumno = 6;
-      const textoInicial = '%20'
+      const textoInicial = '%20';
       handlerListarTutores(idAlumno,textoInicial,-1 );
        // Suponiendo que necesitas realizar una acción similar a esta
   }, []);  

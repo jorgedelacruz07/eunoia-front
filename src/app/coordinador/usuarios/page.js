@@ -10,6 +10,7 @@ import SearchInput from "@/components/SearchInput";
 import UserTypeSelect from "@/components/UserTypeSelect";
 import SelectEstadoModal from "@/components/SelectEstadoModal";
 import UserForm from "@/components/UserForm";
+import connection from '@/config/connection';
 
 const { Title } = Typography;
 
@@ -37,7 +38,7 @@ export default function Home() {
   const get = async () => {
     setIsLoading(true);
     try {
-      let url = `http://localhost:8080/usuarioApi/usuariosFiltrados`;
+      let url = `${connection.backend}/usuarioApi/usuariosFiltrados`;
 
       if (busquedaInput || selectedEstado !== "1" || selectedTipoUsuario) {
         url += `?codigoNombre=${
@@ -87,7 +88,7 @@ export default function Home() {
   const handleInsertarClick = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/usuarioApi/crearUsuario",
+        `${connection.backend}/usuarioApi/crearUsuario`,
         {
           codigo,
           nombres,

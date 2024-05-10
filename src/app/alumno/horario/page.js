@@ -10,6 +10,7 @@ import {Calendar } from "./Calendario"
 const { Title } = Typography;
 import  "./horario.css"
 import { MinusCircleFilled } from '@ant-design/icons';
+import connection from '@/config/connection';
 
 export default function Home() {
   const [disponibilidad, setDisponibilidad] = useState([]);
@@ -36,7 +37,7 @@ export default function Home() {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8080/disponibilidadApi/listarDisponibilidadPorTutor/${idTutor}`
+        `${connection.backend}/disponibilidadApi/listarDisponibilidadPorTutor/${idTutor}`
       );
       console.log(response.data);
       setDisponibilidad(response.data);
@@ -50,7 +51,7 @@ export default function Home() {
   const handlerElementosPorDisponibilidad = async (idDisponibilidad) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/bloqueDisponibilidadApi/listarBloqueDisponibilidadPorDisponibilidad/${idDisponibilidad}`
+        `${connection.backend}/bloqueDisponibilidadApi/listarBloqueDisponibilidadPorDisponibilidad/${idDisponibilidad}`
       );
       console.log(response.data);
       setBloqueDisponibilidad(response.data);
