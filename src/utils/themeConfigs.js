@@ -1,7 +1,7 @@
-import "@fontsource-variable/nunito";
+
 export const landingThemeConfig = {
   token: {
-    fontFamily: "nunito",
+    fontFamily: 'var(--font-nunito)',
     fontWeightStrong: 700,
   },  
   components: {
@@ -19,7 +19,7 @@ export const landingThemeConfig = {
 
 export const defaultThemeConfig = {
   token: {
-    fontFamily: "Nunito",
+    fontFamily: 'var(--font-nunito)',
     fontWeightStrong: 700,
   }
 }

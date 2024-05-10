@@ -7,9 +7,9 @@ import TableComponent from "@/components/TableComponentTipoTutoria";
 import { useEffect, useState, useRef } from "react";
 import { Button, Flex, Typography, Modal, Input, Form, Radio, Select, Space ,message} from "antd";
 import axios from "axios";
+import connection from '@/config/connection';
 import { coordinadorItems } from "@/utils/menuItems";
 import { SearchOutlined, PicLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { ESLINT_DEFAULT_DIRS } from 'next/dist/lib/constants';
 const { Title } = Typography;
 
 
@@ -39,7 +39,7 @@ export default function Home() {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:8080/tipoTutoriaApi/listarTodosTiposTutoria"
+        `${connection.backend}/tipoTutoriaApi/listarTodosTiposTutoria`
       );
       
       const data = response.data.map((tipoTutoria) => ({
@@ -59,7 +59,7 @@ export default function Home() {
   const handleSearch = async (nombre,estado) => {
     setIsLoading(true);
     try {
-      let url = `http://localhost:8080/tipoTutoriaApi/listarTiposTutoriEstadoNombre?estado=${estado}`;
+      let url = `${connection.backend}/tipoTutoriaApi/listarTiposTutoriEstadoNombre?estado=${estado}`;
       if(nombre!=''){
         url+=`&nombre=${nombre}`;
       }
@@ -122,7 +122,7 @@ export default function Home() {
 
   const handleInsertarClick = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/tipoTutoriaApi/crearTiposTutoria', {
+      const response = await axios.post(`${connection.backend}/tipoTutoriaApi/crearTiposTutoria`, {
         nombre,
         estado,
         descripcion,
