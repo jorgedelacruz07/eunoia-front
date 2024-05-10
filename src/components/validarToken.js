@@ -4,7 +4,7 @@ import axios from 'axios';
 export default async function validaToken(email) {
     try {
         // Enviar el token al backend
-        const response = await axios.post("http://localhost:8080/usuarioApi/validarUsuario", {
+        const response = await axios.post(process.env.backend + "/usuarioApi/validarUsuario", {
             correo: email,
         },
         {
