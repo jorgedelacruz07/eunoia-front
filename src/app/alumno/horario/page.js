@@ -37,7 +37,7 @@ export default function Home() {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `${connection.backend}/disponibilidadApi/listarDisponibilidadPorTutor/${idTutor}`
+        `${process.env.backend}/disponibilidadApi/listarDisponibilidadPorTutor/${idTutor}`
       );
       console.log(response.data);
       setDisponibilidad(response.data);
@@ -51,7 +51,7 @@ export default function Home() {
   const handlerElementosPorDisponibilidad = async (idDisponibilidad) => {
     try {
       const response = await axios.get(
-        `${connection.backend}/bloqueDisponibilidadApi/listarBloqueDisponibilidadPorDisponibilidad/${idDisponibilidad}`
+        `${process.env.backend}/bloqueDisponibilidadApi/listarBloqueDisponibilidadPorDisponibilidad/${idDisponibilidad}`
       );
       console.log(response.data);
       setBloqueDisponibilidad(response.data);

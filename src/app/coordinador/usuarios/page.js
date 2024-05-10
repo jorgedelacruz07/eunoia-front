@@ -38,7 +38,7 @@ export default function Home() {
   const get = async () => {
     setIsLoading(true);
     try {
-      let url = `${connection.backend}/usuarioApi/usuariosFiltrados`;
+      let url = `${process.env.backend}/usuarioApi/usuariosFiltrados`;
 
       if (busquedaInput || selectedEstado !== "1" || selectedTipoUsuario) {
         url += `?codigoNombre=${
@@ -88,7 +88,7 @@ export default function Home() {
   const handleInsertarClick = async () => {
     try {
       const response = await axios.post(
-        `${connection.backend}/usuarioApi/crearUsuario`,
+        `${process.env.backend}/usuarioApi/crearUsuario`,
         {
           codigo,
           nombres,

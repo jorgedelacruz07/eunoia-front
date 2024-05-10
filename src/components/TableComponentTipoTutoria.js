@@ -79,7 +79,7 @@ const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
      
       //console.log(datosActualizados);
       // Realizar la solicitud PUT al backend
-      const response = await axios.put('http://localhost:8080/tipoTutoriaApi/actualizarTipoTutoria', {
+      const response = await axios.put(`${process.env.backend}/tipoTutoriaApi/actualizarTipoTutoria`, {
         idTipoTutoria: idTipoTutoria,
         nombre: nombre,
         estado: estado,
@@ -121,7 +121,7 @@ const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
   const buscar_tipo_tutoria = async (id) => {
     try {
      
-      let url = `http://localhost:8080/tipoTutoriaApi/buscar_tipo_tutoria_id/${id}`;
+      let url = `${process.env.backend}/tipoTutoriaApi/buscar_tipo_tutoria_id/${id}`;
       console.log("url:" + url);
       const response = await axios.get(url);
     /* console.log(response.data);
@@ -176,7 +176,7 @@ const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
       try {
         
         // Realiza la solicitud DELETE utilizando Axios
-        const response = await axios.post(`http://localhost:8080/tipoTutoriaApi/borrar_tipo_tutoria/${id}`);
+        const response = await axios.post(`${process.env.backend}/tipoTutoriaApi/borrar_tipo_tutoria/${id}`);
         
         // Verifica si la respuesta es exitosa
         if (response.status === 200) {

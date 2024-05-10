@@ -39,7 +39,7 @@ export default function Home() {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `${connection.backend}/tipoTutoriaApi/listarTodosTiposTutoria`
+        `${process.env.backend}/tipoTutoriaApi/listarTodosTiposTutoria`
       );
       
       const data = response.data.map((tipoTutoria) => ({
@@ -59,7 +59,7 @@ export default function Home() {
   const handleSearch = async (nombre,estado) => {
     setIsLoading(true);
     try {
-      let url = `${connection.backend}/tipoTutoriaApi/listarTiposTutoriEstadoNombre?estado=${estado}`;
+      let url = `${process.env.backend}/tipoTutoriaApi/listarTiposTutoriEstadoNombre?estado=${estado}`;
       if(nombre!=''){
         url+=`&nombre=${nombre}`;
       }
@@ -122,7 +122,7 @@ export default function Home() {
 
   const handleInsertarClick = async () => {
     try {
-      const response = await axios.post(`${connection.backend}/tipoTutoriaApi/crearTiposTutoria`, {
+      const response = await axios.post(`${process.env.backend}/tipoTutoriaApi/crearTiposTutoria`, {
         nombre,
         estado,
         descripcion,
