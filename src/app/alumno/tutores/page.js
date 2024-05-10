@@ -11,6 +11,7 @@ import { Divider } from "antd";
 import "./app.css";
 import { userAgent } from "next/server";
 import { http } from "@/services/http";
+import { Option } from "antd/es/mentions";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -105,7 +106,7 @@ export default function Home() {
 
  
   useEffect(() => {
-      const idAlumno = 7;
+      const idAlumno = 6;
       
       if ( texto === null || texto === ''){
         handlerListarTutores(idAlumno, '%20' ,tutoriaSelccionado );
@@ -124,7 +125,7 @@ export default function Home() {
 
   useEffect(() => {
       const idAlumno = 6;
-      const textoInicial = '%20'
+      const textoInicial = '%20';
       handlerListarTutores(idAlumno,textoInicial,-1 );
        // Suponiendo que necesitas realizar una acción similar a esta
   }, []);  
