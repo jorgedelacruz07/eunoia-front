@@ -1,8 +1,9 @@
+import "@fontsource-variable/nunito";
 export const landingThemeConfig = {
   token: {
-    fontFamily: "Nunito",
+    fontFamily: "nunito",
     fontWeightStrong: 700,
-  },
+  },  
   components: {
     Layout: {
       headerBg: "#0777E3",

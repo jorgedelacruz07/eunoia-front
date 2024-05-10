@@ -100,7 +100,7 @@ const handleGuardarCambios = async () => {
 return (
     <main style={{ height: "100vh" }}>
       <LayoutComponent siderItems={coordinadorItems} showFooter={false}>
-        <Title level={4} className="text-xl font-semibold" style={{ fontFamily: 'Nunito, sans-serif', color: '#043b71', textAlign: 'left', padding: '0 20px' }}>Asignar Tutor</Title>
+        <Title level={4} className="text-xl font-semibold" style={{ fontFamily: 'Nunito', color: '#043b71', textAlign: 'left', padding: '0 20px' }}>Asignar Tutor</Title>
         <div className="dropdownContainerStyle">
           <Text strong className="titleText">Tipo de Tutoría:</Text>
           <Select
