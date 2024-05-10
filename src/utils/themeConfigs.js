@@ -1,8 +1,9 @@
+
 export const landingThemeConfig = {
   token: {
-    fontFamily: "Nunito",
+    fontFamily: 'var(--font-nunito)',
     fontWeightStrong: 700,
-  },
+  },  
   components: {
     Layout: {
       headerBg: "#0777E3",
@@ -18,7 +19,7 @@ export const landingThemeConfig = {
 
 export const defaultThemeConfig = {
   token: {
-    fontFamily: "Nunito",
+    fontFamily: 'var(--font-nunito)',
     fontWeightStrong: 700,
   }
 }
