@@ -117,9 +117,9 @@ return (
             {tiposTutoria.map(tipo => (
               <Option key={tipo.tipoTutoria.idTipoTutoria} 
               value={tipo.tipoTutoria.idTipoTutoria.toString()}
-              label={tipo.tipoTutoria.descripcion}
+              label={tipo.tipoTutoria.nombre}
               >
-                {tipo.tipoTutoria.descripcion}
+                {tipo.tipoTutoria.nombre}
               </Option>
             ))}
           </Select>
