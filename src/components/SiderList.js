@@ -17,8 +17,8 @@ const SiderList = ({ items }) => {
     <Flex style={{ padding: "10px" }} vertical align="center" gap="middle">
       <Image
         src="/logo.svg"
-        width={175}
-        height={175}
+        width={200}
+        height={200}
         alt="Picture of the author"
       />
       <Menu

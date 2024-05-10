@@ -1,73 +1,61 @@
 "use client";
-//prueba
-import Card from "@/components/Card";
-import InsertarAlumno from "@/components/InsertarAlumno";
 import LayoutComponent from "@/components/LayoutComponent";
 import { useEffect, useState } from "react";
-import { Button, Flex, Typography, Modal, Input } from "antd";
+import { Button, Flex, Typography } from "antd";
+import { ProductOutlined } from "@ant-design/icons";
 import TableComponent from "@/components/TableComponent";
 import axios from "axios";
-//import App from "./login/page";
 import { coordinadorItems } from "@/utils/menuItems";
+import SearchInput from "@/components/SearchInput";
+import UserTypeSelect from "@/components/UserTypeSelect";
+import SelectEstadoModal from "@/components/SelectEstadoModal";
+import UserForm from "@/components/UserForm";
+
 const { Title } = Typography;
 
 export default function Home() {
   const [mostrarInsertar, setMostrarInsertar] = useState(false);
-  const [nombre, setNombre] = useState("");
-  const [apellidoPaterno, setApellidoPaterno] = useState("");
-  const [apellidoMaterno, setApellidoMaterno] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [cicloEstudios, setCicloEstudios] = useState("");
-  const [dni, setDni] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [nombres, setNombres] = useState("");
+  const [apellidos, setApellidos] = useState("");
+  const [celular, setCelular] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [tipoUsuario, setTipoUsuario] = useState("");
   const [busquedaInput, setBusquedaInput] = useState("");
-  const [alumnos, setAlumnos] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedTipoUsuario, setSelectedTipoUsuario] = useState("");
+  const [isEstadoModalVisible, setIsEstadoModalVisible] = useState(false);
+  const [selectedEstado, setSelectedEstado] = useState(1);
 
   const onSearch = async () => {
-    console.log("asdsd");
-    setIsLoading(true);
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/usuarioApi/usuariosFiltrados/${busquedaInput}/${1}/${"alumno"}`
-      );
-
-      const data = response.data.map((alumno) => ({
-        key: alumno.dni,
-        dni: alumno.dni,
-        firstName: alumno.nombre,
-        lastName: alumno.apellidoPaterno,
-        lastName2: alumno.apellidoMaterno,
-        telefono: alumno.telefono,
-        cicloEstudios: alumno.cicloEstudios,
-        historialAcademico: alumno.historialAcademico,
-      }));
-      setAlumnos(data);
-    } catch (error) {
-      console.error("Error al obtener datos de la API:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    await get();
   };
+
   const get = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:8080/usuarioApi/usuariosFiltrados/${"%20"}/${1}/${"%20"}`
-      );
+      let url = `http://localhost:8080/usuarioApi/usuariosFiltrados`;
 
-      const data = response.data.map((alumno) => ({
-        key: alumno.dni,
-        dni: alumno.dni,
-        firstName: alumno.persona.nombre,
-        lastName: alumno.persona.apellidoPaterno,
-        lastName2: alumno.persona.apellidoMaterno,
-        correo: alumno.correo,
-        tipoUsuario: alumno.tipoUsuario,
-        historialAcademico: alumno.historialAcademico,
+      if (busquedaInput || selectedEstado !== "1" || selectedTipoUsuario) {
+        url += `?codigoNombre=${
+          busquedaInput || ""
+        }&estado=${selectedEstado}&tipoUsuario=${selectedTipoUsuario || ""}`;
+      }
+
+      const response = await axios.get(url);
+
+      const data = response.data.map((usuario) => ({
+        key: usuario.id,
+        nombres: `${usuario.persona.nombre} ${usuario.persona.apellidoPaterno} ${usuario.persona.apellidoMaterno}`,
+        correo: usuario.correo,
+        tipoUsuario: usuario.tipoUsuario,
+        estado: selectedEstado === 1 ? "Activo" : "Inactivo",
       }));
 
-      setAlumnos(data);
+      setUsuarios(data);
     } catch (error) {
       console.error("Error al obtener datos de la API:", error);
     } finally {
@@ -79,26 +67,34 @@ export default function Home() {
     get();
   }, []);
 
+  useEffect(() => {
+    const delaySearch = setTimeout(() => {
+      onSearch();
+    }, 500);
+
+    return () => clearTimeout(delaySearch);
+  }, [busquedaInput, selectedTipoUsuario, selectedEstado]);
+
   const clearInput = () => {
-    setNombre("");
-    setApellidoPaterno("");
-    setApellidoMaterno("");
-    setTelefono("");
-    setCicloEstudios("");
-    setDni("");
+    setCodigo("");
+    setNombres("");
+    setApellidos("");
+    setCelular("");
+    setCorreo("");
+    setTipoUsuario("");
   };
-  
+
   const handleInsertarClick = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/alumnoApi/crearAlumno",
+        "http://localhost:8080/usuarioApi/crearUsuario",
         {
-          nombre,
-          apellidoPaterno,
-          apellidoMaterno,
-          telefono,
-          cicloEstudios,
-          DNI: dni,
+          codigo,
+          nombres,
+          apellidos,
+          celular,
+          correo,
+          tipoUsuario,
         },
         {
           headers: {
@@ -107,155 +103,135 @@ export default function Home() {
         }
       );
       if (response.status === 200) {
-        alert("Alumno insertado exitosamente");
+        alert("Usuario insertado exitosamente");
         clearInput();
         await get();
       } else {
-        alert("Error al insertar alumno");
+        alert("Error al insertar usuario");
       }
     } catch (error) {
-      console.error("Error al insertar alumno:", error);
+      console.error("Error al insertar usuario:", error);
       console.error(
         "Detalles de la respuesta del servidor:",
         error.response.data
       );
     }
   };
-  //const toggleMostrarInsertar = () => {
-  //  setMostrarInsertar(!mostrarInsertar);
-  //};
-  //const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleMostrarInsertar = () => {
+    setMostrarInsertar(!mostrarInsertar);
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
-    handleInsertarClick();
+
+  const handleOk = async () => {
+    await handleInsertarClick();
     setIsModalOpen(false);
+    setSelectedOption("seleccionar");
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
+    setSelectedOption("seleccionar");
+  };
+
+  const handleBusquedaChange = (e) => {
+    const value = e.target.value;
+    setBusquedaInput(value);
+
+    if (value === "") {
+      onSearch();
+    }
   };
 
   return (
     <main style={{ height: "100vh" }}>
       <LayoutComponent siderItems={coordinadorItems}>
-        <Flex style={{ alignItems: "center" }}>
-          <Title style={{ textAlign: "left" }}>Lista de Usuarios</Title>
-          <Button type="primary" onClick={showModal}>
-            Ingresar{" "}
-          </Button>
-          <Input
-            placeholder="Buscar"
-            value={busquedaInput}
-            onChange={(e) => {
-              setBusquedaInput(e.target.value);
-            }}
-            onPressEnter={onSearch}
-          ></Input>
-
+        <Flex style={{ flexDirection: "column", alignItems: "flex-start" }}>
+          <Title style={{ textAlign: "left", color: "#043B71" }}>
+            Lista de Usuarios
+          </Title>
+          <Flex style={{ alignItems: "center" }}>
+            <SearchInput
+              value={busquedaInput}
+              onChange={handleBusquedaChange}
+            />
+            <UserTypeSelect
+              value={selectedTipoUsuario}
+              onChange={setSelectedTipoUsuario}
+            />
+            <Button
+              icon={<ProductOutlined />}
+              onClick={() => setIsEstadoModalVisible(true)}
+              style={{ marginLeft: 10, width: 60, height: 40 }}
+            />
+          </Flex>
+          <Flex style={{ alignItems: "center", marginTop: 10 }}>
+            <span style={{ marginRight: 10, color: "#727272" }}>
+              ({usuarios.length}) Usuarios
+            </span>
+            <Button
+              type="primary"
+              onClick={showModal}
+              style={{
+                backgroundColor: "#0092FF",
+                borderColor: "#0092FF",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ marginRight: 8 }}>Añadir nuevo</span>
+              <span>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 6V18M6 12H18"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </Button>
+          </Flex>
         </Flex>
+
         <TableComponent
           isLoading={isLoading}
-          alumnos={alumnos}
-        ></TableComponent>
+          usuarios={usuarios.map((usuario, index) => ({
+            ...usuario,
+            key: index + 1,
+          }))}
+        />
       </LayoutComponent>
-      <Modal
-        title="Agregar un alumno"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <div className="formulario inicial">
-          <h1>Formulario de registro de alumno</h1>
-          <div className="form">
-            <div className="campo">
-              <label htmlFor="nombre" className="nombre-control">
-                Nombre:
-              </label>
-              <Input
-                type="text"
-                id="nombre"
-                className="nombre-control"
-                onChange={(e) => setNombre(e.target.value)}
-              />
-            </div>
-            <div className="campo">
-              <label
-                htmlFor="apellidoPaterno"
-                className="apellidoPaterno-control"
-              >
-                Apellido Paterno:
-              </label>
-              <Input
-                type="text"
-                id="apellidoPaterno"
-                className="apellidoPaterno-control"
-                onChange={(e) => setApellidoPaterno(e.target.value)}
-              />
-            </div>
-            <div className="campo">
-              <label
-                htmlFor="apellidoMaterno"
-                className="apellidoMaterno-control"
-              >
-                Apellido Materno:
-              </label>
-              <Input
-                type="text"
-                id="apellidoMaterno"
-                className="apellidoMaterno-control"
-                onChange={(e) => setApellidoMaterno(e.target.value)}
-              />
-            </div>
-            <div className="campo">
-              <label htmlFor="telefono" className="telefono-control">
-                Teléfono:
-              </label>
-              <Input
-                type="text"
-                id="telefono"
-                className="telefono-control"
-                onChange={(e) => setTelefono(e.target.value)}
-              />
-            </div>
-            <div className="campo">
-              <label htmlFor="cicloEstudios" className="cicloEstudios-control">
-                Ciclo de Estudios:
-              </label>
-              <Input
-                type="text"
-                id="cicloEstudios"
-                className="cicloEstudios-control"
-                onChange={(e) => setCicloEstudios(e.target.value)}
-              />
-            </div>
-            <div className="campo">
-              <label htmlFor="dni" className="dni-control">
-                DNI:
-              </label>
-              <Input
-                type="text"
-                id="dni"
-                className="dni-control"
-                onChange={(e) => setDni(e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-      </Modal>
+
+      <UserForm
+        isModalOpen={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        setCodigo={setCodigo}
+        setNombres={setNombres}
+        setApellidos={setApellidos}
+        setCelular={setCelular}
+        setCorreo={setCorreo}
+        setTipoUsuario={setTipoUsuario}
+      />
+
+      <SelectEstadoModal
+        isModalVisible={isEstadoModalVisible}
+        setIsModalVisible={setIsEstadoModalVisible}
+        selectedEstado={selectedEstado}
+        setSelectedEstado={setSelectedEstado}
+        onSearch={onSearch}
+      />
     </main>
   );
 }
-
-/*
-<div className="bttnToggle">
-        <button onClick={toggleMostrarInsertar}>
-          {mostrarInsertar
-            ? "Mostrar Lista de Alumnos"
-            : "Mostrar Formulario de Inserción"}
-        </button>
-
-        {mostrarInsertar ? <InsertarAlumno /> : <Card />}
-      </div>
-
-*/

@@ -1,37 +1,42 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Space, Spin, Table, Tag } from "antd";
-import axios from "axios";
-const { Column, ColumnGroup } = Table;
+import React from "react";
+import { Space, Spin, Table } from "antd";
+import { EditOutlined, MinusCircleOutlined } from "@ant-design/icons";
 
-const TableComponent = ({ isLoading, alumnos }) => {
+const { Column } = Table;
+
+const TableComponent = ({ isLoading, usuarios }) => {
+  const renderEstado = (text, record) => {
+    const estadoStyle = {
+      padding: '4px 8px',
+      borderRadius: '999px',
+      color: '#fff',
+      textAlign: 'center',
+      display: 'inline-block',
+    };
+
+    if (record.estado === 'Activo') {
+      estadoStyle.backgroundColor = '#52c41a';
+    } else if (record.estado === 'Inactivo') {
+      estadoStyle.backgroundColor = '#f5222d';
+    }
+
+    return <span style={estadoStyle}>{record.estado}</span>;
+  };
+
   if (isLoading) return <Spin size="large" />;
 
   return (
-    <Table dataSource={alumnos}>
-      <Column
-        title="Nº"
-        dataIndex="index"
-        key="index"
-        align="center"
-        render={(text, record, index) => index + 1}
-      />
+    <Table dataSource={usuarios}>
+      <Column title="Nº" dataIndex="key" key="key" align="center" />
       <Column
         title="Nombres"
+        dataIndex="nombres"
         key="nombres"
         align="center"
-        render={(text, record) =>
-          `${record.firstName} ${record.lastName} ${record.lastName2}`
-        }
       />
-
-      <Column
-        title="Correo"
-        dataIndex="correo"
-        key="correo"
-        align="center"
-      />
+      <Column title="Correo" dataIndex="correo" key="correo" align="center" />
       <Column
         title="Tipo de Usuario"
         dataIndex="tipoUsuario"
@@ -43,14 +48,18 @@ const TableComponent = ({ isLoading, alumnos }) => {
         dataIndex="estado"
         key="estado"
         align="center"
+        render={renderEstado}
       />
-      <Column
-        title="Accion"
-        dataIndex="accion"
-        key="accion"
-        align="center"
-      />
+      <Column title="Acción" dataIndex="Acción" key="Acción" 
+          render={(text, record) => (
+            <Space size="middle">
+              <EditOutlined style={{ fontSize: '16px', color: '#0884FC' }} onClick={() => handleUpdate(record)}/>
+              <MinusCircleOutlined style={{ fontSize: '16px', color: '#0884FC' }}  onClick={() => handleDelete(record.key)}/>
+            </Space>
+          )}
+        />
     </Table>
   );
 };
-export default TableComponent;
+
+export default TableComponent; 
