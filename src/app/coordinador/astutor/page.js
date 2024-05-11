@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import LayoutComponent from "@/components/LayoutComponent";
 import { Button, Flex, Typography, Input, Select, message } from "antd";
-import axios from "axios";
 import connection from '@/config/connection';
 import { coordinadorItems } from "@/utils/menuItems";
 import CardAlumnoCoordi from "@/components/cards/cardAlumnoCoordi"; 
 import './App.css'; 
+import { http } from '@/services/http';
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -23,7 +23,7 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const fetchTiposTutoria = axios.get(`${process.env.backend}/tipoTutoriaApi/listarTiposTutoriaTutorAsignado`);
+      const fetchTiposTutoria = http.get(`/tipoTutoriaApi/listarTiposTutoriaTutorAsignado`);
 
       fetchTiposTutoria.then(response => {
         console.log("Response data:", response.data);
@@ -85,7 +85,7 @@ const handleGuardarCambios = async () => {
 
   try {
     // Replace the URL with the actual endpoint that will handle this data
-    await axios.post(`${process.env.backend}/llenarAsignacion`, dataPayload);
+    await http.post(`/llenarAsignacion`, dataPayload);
     message.success("Cambios guardados exitosamente.");
     setSelectedTipoTutoria(null);
     setSelectedTutor(null);

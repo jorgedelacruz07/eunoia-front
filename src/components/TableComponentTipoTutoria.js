@@ -2,11 +2,11 @@
 import '@/app/coordinador/tipos/page.css';
 import React, { useEffect, useState } from "react";
 import { Space, Spin, Table, Tag, Button, Flex, Typography, Modal, Input, Form, Radio, Select,message } from "antd";
-import axios from "axios";
 
 const { Column, ColumnGroup  } = Table;
 import { EditOutlined, DeleteOutlined,SearchOutlined, PicLeftOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
+import { http } from '@/services/http';
 
 const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
   const [nombre,setNombre]=useState("");
@@ -60,7 +60,6 @@ const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
 
   const handleModificar = async  () => {
     try {
-      debugger;
       console.log(nombre);
       console.log(descripcion);
 /*
@@ -79,7 +78,7 @@ const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
      
       //console.log(datosActualizados);
       // Realizar la solicitud PUT al backend
-      const response = await axios.put(`${process.env.backend}/tipoTutoriaApi/actualizarTipoTutoria`, {
+      const response = await http.put('/tipoTutoriaApi/actualizarTipoTutoria', {
         idTipoTutoria: idTipoTutoria,
         nombre: nombre,
         estado: estado,
@@ -121,9 +120,9 @@ const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
   const buscar_tipo_tutoria = async (id) => {
     try {
      
-      let url = `${process.env.backend}/tipoTutoriaApi/buscar_tipo_tutoria_id/${id}`;
+      let url = `/tipoTutoriaApi/buscar_tipo_tutoria_id/${id}`;
       console.log("url:" + url);
-      const response = await axios.get(url);
+      const response = await http.get(url);
     /* console.log(response.data);
       console.log(response.data.idTipoTutoria);
       //console.log(data);
@@ -154,7 +153,6 @@ const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
 
 
   const handleUpdate = (record) => {
-    debugger;
     setIsModalOpen(true);
     console.log(record);
     setTipoTutoriaUpd(record); // Actualiza el estado con los datos del objeto record
@@ -176,7 +174,7 @@ const TableComponent = ({ isLoading, tipoTutorias,flagtable}) => {
       try {
         
         // Realiza la solicitud DELETE utilizando Axios
-        const response = await axios.post(`${process.env.backend}/tipoTutoriaApi/borrar_tipo_tutoria/${id}`);
+        const response = await http.post(`/tipoTutoriaApi/borrar_tipo_tutoria/${id}`);
         
         // Verifica si la respuesta es exitosa
         if (response.status === 200) {

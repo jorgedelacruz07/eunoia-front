@@ -1,12 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
 
 export default function InsertarAlumno() {
-  
-
-  
-
   return (
     <div className="formulario inicial">
       <h1>Formulario de registro de alumno</h1>

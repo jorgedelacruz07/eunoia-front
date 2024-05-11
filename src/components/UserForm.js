@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select } from "antd";
-import axios from "axios";
 import TipoTutoriaSelect from "./TipoTutoriaSelect";
+import { http } from "@/services/http";
 
 const UserForm = ({
   isModalOpen,
@@ -23,8 +23,8 @@ const UserForm = ({
   useEffect(() => {
     const fetchEspecialidades = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.backend}/especialidadApi/listarTodosEspecialidad`
+        const response = await http.get(
+          "/especialidadApi/listarTodosEspecialidad"
         );
         setEspecialidades(response.data);
       } catch (error) {
@@ -63,8 +63,8 @@ const UserForm = ({
           dni: values.codigo,
         };
 
-        const alumnoResponse = await axios.post(
-          `${process.env.backend}/alumnoApi/crearAlumno`,
+        const alumnoResponse = await http.post(
+          "/alumnoApi/crearAlumno",
           alumnoData,
           {
             headers: {
@@ -100,8 +100,8 @@ const UserForm = ({
             },
           };
 
-          const usuarioResponse = await axios.post(
-            `${process.env.backend}/usuarioApi/crearUsuario`,
+          const usuarioResponse = await http.post(
+            "/usuarioApi/crearUsuario",
             usuarioData,
             {
               headers: {
@@ -135,8 +135,8 @@ const UserForm = ({
           dni: values.codigo,
         };
 
-        const tutorResponse = await axios.post(
-          `${process.env.backend}/tutorApi/crearTutor`,
+        const tutorResponse = await http.post(
+          "/tutorApi/crearTutor",
           tutorData,
           {
             headers: {
@@ -150,8 +150,8 @@ const UserForm = ({
 
           // Asignar tipo de tutoría al tutor
           if (tipoTutoria) {
-            await axios.post(
-              `${process.env.backend}/tipoTutoriaApi/asignarTipoTutoriaATutor/${tipoTutoria}/${tutorId}`
+            await http.post(
+              `/tipoTutoriaApi/asignarTipoTutoriaATutor/${tipoTutoria}/${tutorId}`
             );
           }
 
@@ -179,8 +179,8 @@ const UserForm = ({
             },
           };
 
-          const usuarioResponse = await axios.post(
-            `${process.env.backend}/usuarioApi/crearUsuario`,
+          const usuarioResponse = await http.post(
+            "/usuarioApi/crearUsuario",
             usuarioData,
             {
               headers: {

@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import { Button, Flex, Typography } from "antd";
 import { ProductOutlined } from "@ant-design/icons";
 import TableComponent from "@/components/TableComponent";
-import axios from "axios";
 import { coordinadorItems } from "@/utils/menuItems";
 import SearchInput from "@/components/SearchInput";
 import UserTypeSelect from "@/components/UserTypeSelect";
 import SelectEstadoModal from "@/components/SelectEstadoModal";
 import UserForm from "@/components/UserForm";
-import connection from '@/config/connection';
+import { http } from "@/services/http";
 
 const { Title } = Typography;
 
@@ -38,7 +37,7 @@ export default function Home() {
   const get = async () => {
     setIsLoading(true);
     try {
-      let url = `${process.env.backend}/usuarioApi/usuariosFiltrados`;
+      let url = `/usuarioApi/usuariosFiltrados`;
 
       if (busquedaInput || selectedEstado !== "1" || selectedTipoUsuario) {
         url += `?codigoNombre=${
@@ -46,7 +45,7 @@ export default function Home() {
         }&estado=${selectedEstado}&tipoUsuario=${selectedTipoUsuario || ""}`;
       }
 
-      const response = await axios.get(url);
+      const response = await http.get(url);
 
       const data = response.data.map((usuario) => ({
         key: usuario.id,
@@ -87,8 +86,8 @@ export default function Home() {
 
   const handleInsertarClick = async () => {
     try {
-      const response = await axios.post(
-        `${process.env.backend}/usuarioApi/crearUsuario`,
+      const response = await http.post(
+        "/usuarioApi/crearUsuario",
         {
           codigo,
           nombres,
