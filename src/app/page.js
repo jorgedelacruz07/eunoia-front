@@ -38,18 +38,28 @@ const LandingPage = () => {
           </Menu>
         </Header>
         <Content style={{ padding: "0 40px", marginTop: 64, display: "flex" }}>
-          <div style={{ padding: 24, minHeight: 380, flex: 3, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <div
+            style={{
+              padding: 24,
+              minHeight: 380,
+              flex: 3,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Title>Aprende. Crece. Triunfa.</Title>
             <Paragraph>
               Con tutores comprometidos y herramientas de aprendizaje
               innovadoras, nuestro sistema de tutorías está aquí para ayudarte a
               convertir tus metas académicas universitarias en realidad.
             </Paragraph>
-            <Button type="primary" size="large" style={{marginTop: "16px"}}>
+            <Button type="primary" size="large" style={{ marginTop: "16px" }}>
               <Link href="/login">Ingresar a Eunoia</Link>
             </Button>
           </div>
-          <div style={{ flex: 4}}>
+          <div style={{ flex: 4 }}>
             <Image
               src="/homeImage.png"
               alt="Home Image"

@@ -2,11 +2,11 @@
 //prueba
 import LayoutComponent from "@/components/LayoutComponent";
 import { useEffect, useState } from "react";
-import { Button, Flex, Typography, Modal, Input ,Select,Text } from "antd";
+import { Button, Flex, Typography, Modal, Input, Select, Text } from "antd";
 import { alumnoItems } from "@/utils/menuItems";
 import { TutorCard } from "./cardTutor";
 const { Title } = Typography;
-import {  cardTutor } from './cardTutor.css'
+import { cardTutor } from "./cardTutor.css";
 import { Divider } from "antd";
 import "./app.css";
 import { userAgent } from "next/server";
@@ -15,78 +15,75 @@ import { Option } from "antd/es/mentions";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
-  const [tutores,setTutores] = useState([]);
-  const [tiposTutoria,setTiposTutoria] = useState([]);
-  const [tutoresPrueba,setTutoresPrueba] = useState([]);
-  const [texto,setTexto ] = useState("");
-  const [tiposTutoriaAlumno,setTiposTutoriaAlumno] = useState([]);
-  const [tutoriaSelccionado,setTutoriaSeleccionado] = useState(-1)
-  
+  const [tutores, setTutores] = useState([]);
+  const [tiposTutoria, setTiposTutoria] = useState([]);
+  const [tutoresPrueba, setTutoresPrueba] = useState([]);
+  const [texto, setTexto] = useState("");
+  const [tiposTutoriaAlumno, setTiposTutoriaAlumno] = useState([]);
+  const [tutoriaSelccionado, setTutoriaSeleccionado] = useState(-1);
 
-
-
-  const handlerListarTutores = async (id,nombre,idTipo) => {
+  const handlerListarTutores = async (id, nombre, idTipo) => {
     setIsLoading(true);
-    try{
+    try {
       const response = await http.get(
         `/tutorApi/listarTutorPorAlumno/${id}/${nombre}/${idTipo}`
       );
       setTutores(response.data);
-      
-    } catch(error){
+    } catch (error) {
       console.error("Error al obtener datos de la API: listar tutores", error);
-    } finally{
+    } finally {
       setIsLoading(false);
     }
   };
 
-  const handlerListarTemasPorTutor = async (idUsuario,idTutor) => {
+  const handlerListarTemasPorTutor = async (idUsuario, idTutor) => {
     setIsLoading(true);
-    try{
+    try {
       const response = await http.get(
         `/tipoTutoriaApi/listarTiposTutoriaCompatiblesXTutor/${idUsuario}/${idTutor}`
       );
       setTiposTutoria(response.data);
       return response.data;
-     
-    } catch(error){
+    } catch (error) {
       console.error("Error al obtener datos de la API: Tipos tutoria", error);
-    } finally{
+    } finally {
       setIsLoading(false);
     }
   };
 
   const handlerListarTutoriasPorAlumno = async (idUsuario) => {
     setIsLoading(true);
-    try{
+    try {
       const response = await http.get(
         `/tipoTutoriaApi/listarTiposTutoriaXAlumno/${idUsuario}`
       );
       setTiposTutoriaAlumno(response.data);
       return response.data;
-     
-    } catch(error){
-      console.error("Error al obtener datos de la API: Tipos tutoria por alumno", error);
-    } finally{
+    } catch (error) {
+      console.error(
+        "Error al obtener datos de la API: Tipos tutoria por alumno",
+        error
+      );
+    } finally {
       setIsLoading(false);
     }
   };
 
- 
   const llenarTiposTutoria = async (tutoresParametro) => {
     const nuevosTutores = await Promise.all(
       tutoresParametro.map(async (elemento) => {
-        
-        const tiposTutoriaA = await handlerListarTemasPorTutor(6, elemento.persona.id);
+        const tiposTutoriaA = await handlerListarTemasPorTutor(
+          6,
+          elemento.persona.id
+        );
         const tutor = {
           id: elemento.persona.id,
           tiposDeTutoria: tiposTutoriaA,
-          codigo : elemento.codigo,
-          nombre : elemento.persona.nombre,
-          apellidoPaterno : elemento.persona.apellidoPaterno,
-          apellidoMaterno : elemento.persona.apellidoMaterno,
-          foto :elemento.foto,
-          
+          codigo: elemento.codigo,
+          nombre: elemento.persona.nombre,
+          apellidoPaterno: elemento.persona.apellidoPaterno,
+          apellidoMaterno: elemento.persona.apellidoMaterno,
+          foto: elemento.foto,
         };
         return tutor;
       })
@@ -94,53 +91,39 @@ export default function Home() {
     setTutoresPrueba(nuevosTutores);
   };
 
-  
-  
-
   useEffect(() => {
-      
-    const idUsuario = 6; // Debes proporcionar el id del alumno aquí   
+    const idUsuario = 6; // Debes proporcionar el id del alumno aquí
     handlerListarTutoriasPorAlumno(idUsuario);
-    
-  }, [])
-
- 
-  useEffect(() => {
-      const idAlumno = 6;
-      
-      if ( texto === null || texto === ''){
-        handlerListarTutores(idAlumno, '%20' ,tutoriaSelccionado );
-      }
-      else{
-        handlerListarTutores(idAlumno, texto ,tutoriaSelccionado );
-      }// Debes proporcionar el id del alumno aquí   
-      
-      console.log(texto);
-      console.log(tutoriaSelccionado);
-      
-  }, [texto,tutoriaSelccionado])
-
-
-    
+  }, []);
 
   useEffect(() => {
-      const idAlumno = 6;
-      const textoInicial = '%20';
-      handlerListarTutores(idAlumno,textoInicial,-1 );
-       // Suponiendo que necesitas realizar una acción similar a esta
-  }, []);  
-    
-  
+    const idAlumno = 6;
+
+    if (texto === null || texto === "") {
+      handlerListarTutores(idAlumno, "%20", tutoriaSelccionado);
+    } else {
+      handlerListarTutores(idAlumno, texto, tutoriaSelccionado);
+    } // Debes proporcionar el id del alumno aquí
+
+    console.log(texto);
+    console.log(tutoriaSelccionado);
+  }, [texto, tutoriaSelccionado]);
+
   useEffect(() => {
-    
+    const idAlumno = 6;
+    const textoInicial = "%20";
+    handlerListarTutores(idAlumno, textoInicial, -1);
+    // Suponiendo que necesitas realizar una acción similar a esta
+  }, []);
+
+  useEffect(() => {
     llenarTiposTutoria(tutores);
-    
   }, [tutores]);
-  
-  function handleChange(value,txt) {   
+
+  function handleChange(value, txt) {
     setTutoriaSeleccionado(value);
     //handlerListarTutores(1,' ',value);
-    console.log(tutoriaSelccionado);    
+    console.log(tutoriaSelccionado);
   }
 
   console.log(tiposTutoria);
@@ -152,26 +135,33 @@ export default function Home() {
           <h1>Lista de tutores</h1>
         </div>
         <div>
-          <Divider orientation="left" 
-           style={{ color: '#727272',
-                  fontFamily: "Nunito",
-                  fontWeight: "light",
-                  fontSize: '18px' ,  
-                  colorBorderSecondary : 'rgba(114, 114,144, 10)'}}>Tutores asignados
-           </Divider>
+          <Divider
+            orientation="left"
+            style={{
+              color: "#727272",
+              fontFamily: "Nunito",
+              fontWeight: "light",
+              fontSize: "18px",
+              colorBorderSecondary: "rgba(114, 114,144, 10)",
+            }}
+          >
+            Tutores asignados
+          </Divider>
         </div>
-        <div className="otros-tutores"  >
-          <Divider orientation="left" 
-                  style={{ color: '#727272',
-                  fontFamily: "Nunito",
-                  fontSize: '18px' }}>Otros tutores</Divider>
+        <div className="otros-tutores">
+          <Divider
+            orientation="left"
+            style={{ color: "#727272", fontFamily: "Nunito", fontSize: "18px" }}
+          >
+            Otros tutores
+          </Divider>
           <div className="buscadores">
             <Input
               placeholder="Buscar tutor por nombre"
-              value=  {texto}   
+              value={texto}
               onChange={(e) => {
                 const valor = e.target.value;
-                setTexto(valor === null ? '%20' : valor);              
+                setTexto(valor === null ? "%20" : valor);
                 //setTexto(e.target.value);
               }}
               //onPressEnter={handlerListarTutores(1,"a",-1)}
@@ -182,16 +172,15 @@ export default function Home() {
                 fontSize: "20px",
                 width: "670px",
                 height: "50px",
-                marginLeft : "60px", 
-                marginRight : "170px"   
+                marginLeft: "60px",
+                marginRight: "170px",
               }}
             />
             <div className="dropdownContainerStyle">
-           
-            <Select
+              <Select
                 defaultValue={tiposTutoriaAlumno[0]}
                 placeholder="Seleccione el tema" // Establecer el valor predeterminado, por ejemplo, el primer elemento del arreglo.
-                style={{ 
+                style={{
                   width: "359px",
                   height: "50px",
                   border: "2px solid #0663bd",
@@ -199,11 +188,10 @@ export default function Home() {
                   fontSize: "20px",
                   //colorBgContainer : "#ffffff",
                   //marginLeft: "500px"
-                 }}
-                 
-                 onChange={handleChange}
-                >
-                <Option value={-1} >Todos</Option>
+                }}
+                onChange={handleChange}
+              >
+                <Option value={-1}>Todos</Option>
                 {tiposTutoriaAlumno.map((opcion, index) => (
                   <Option key={index} value={opcion.idTipoTutoria}>
                     {opcion.nombre}
@@ -212,13 +200,11 @@ export default function Home() {
               </Select>
             </div>
           </div>
-        
         </div>
         {tutoresPrueba.map((tutor, index) => (
-          
-          <TutorCard 
+          <TutorCard
             key={index}
-            id = {tutor.id}
+            id={tutor.id}
             codigo={tutor.codigo}
             nombre={tutor.nombre}
             apellidoMaterno={tutor.apellidoMaterno}
@@ -231,4 +217,3 @@ export default function Home() {
     </main>
   );
 }
-
