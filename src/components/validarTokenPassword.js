@@ -3,18 +3,10 @@ import { http } from "@/services/http";
 export default async function validaTokenPassword(email, password) {
   try {
     // Enviar el token al backend
-    const response = await http.post(
-      "/usuarioApi/validarUsuarioPassword",
-      {
-        correo: email,
-        password: password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await http.post("/usuarioApi/validarUsuarioPassword", {
+      correo: email,
+      password: password,
+    });
 
     // Verificar el resultado de la validación
     if (response.data.resultado === "Tutor") {
